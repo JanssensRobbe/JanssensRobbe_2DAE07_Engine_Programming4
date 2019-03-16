@@ -3,6 +3,14 @@
 
 namespace dae
 {
+	enum LogLevel
+	{
+		Info = 0x1,
+		Warning = 0x2,
+		Error = 0x4,
+		FixMe = 0x8
+	};
+
 	class DebugStreambuf : public std::streambuf 
 	{
 	public:
@@ -11,24 +19,30 @@ namespace dae
 
 	// This class redirects the output of std::cout to the visual studio debug stream
 	// https://gist.github.com/takashyx/937f3a794ad36cd98ec3
-	class Cout2VisualStudioDebugOutput 
+	class Logger 
 	{
 		DebugStreambuf dbgstream;
 		std::streambuf *default_stream{};
 
 	public:
-		Cout2VisualStudioDebugOutput();
-		~Cout2VisualStudioDebugOutput();
+		Logger();
+		~Logger();
 
-		Cout2VisualStudioDebugOutput(const Cout2VisualStudioDebugOutput &) = delete;
-		Cout2VisualStudioDebugOutput(Cout2VisualStudioDebugOutput &&) = delete;
-		Cout2VisualStudioDebugOutput & operator= (const Cout2VisualStudioDebugOutput &) = delete;
-		Cout2VisualStudioDebugOutput & operator= (const Cout2VisualStudioDebugOutput &&) = delete;
+		Logger(const Logger &) = delete;
+		Logger(Logger &&) = delete;
+		Logger & operator= (const Logger &) = delete;
+		Logger & operator= (const Logger &&) = delete;
+	
+		static void Log(LogLevel level, const std::wstring& msg, bool includeTimeStamp = false);
+		static void LogWarning(const std::wstring& msg, bool includeTimeStamp = false);
+	private:
+		static HANDLE m_ConsoleHandle;
+		static char m_BreakBitField;
 	};
 
 #ifdef _DEBUG
 #ifdef _MSC_VER
-	Cout2VisualStudioDebugOutput c2v;
+	Logger c2v;
 #endif
 #endif
 }

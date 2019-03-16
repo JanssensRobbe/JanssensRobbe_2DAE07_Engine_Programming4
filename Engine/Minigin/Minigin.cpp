@@ -7,7 +7,8 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
-#include "TextObject.h"
+#include "TextComponent.h"
+#include "TextureComponent.h"
 #include "GameObject.h"
 #include "Scene.h"
 
@@ -43,16 +44,21 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
+	auto texture{ ResourceManager::GetInstance().LoadTexture("background.jpg") };
+	TextureComponent TextureComp{ texture->GetSDLTexture() };
+	go->AddComponent(&TextureComp);
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
+	auto texture2{ ResourceManager::GetInstance().LoadTexture("background.jpg") };
+	TextureComponent TextureComp2{ texture2->GetSDLTexture() };
+	go->AddComponent(&TextureComp2);
 	go->SetPosition(216, 180);
 	scene.Add(go);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
+	auto to = std::make_shared<GameObject>();
+	TextComponent TextComp{ "Test",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)};
+	to->AddComponent(&TextComp);
 	to->SetPosition(80, 20);
 	scene.Add(to);
 }

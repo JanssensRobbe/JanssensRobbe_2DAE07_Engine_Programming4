@@ -2,23 +2,78 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include "BaseComponent.h"
+#include "TransformComponent.h"
+
+dae::GameObject::GameObject()
+	:m_pComponents(std::vector<BaseComponent*>())
+	,m_pTransform{new TransformComponent{}}
+{
+}
 
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update(float deltaTime){}
+void dae::GameObject::RootUpdate(float deltaTime)
+{
+	Update(deltaTime);
+
+	for (BaseComponent* pComp : m_pComponents)
+	{
+		pComp->Update(deltaTime);
+	}
+}
 
 void dae::GameObject::Render() const
 {
-	const auto pos = mTransform.GetPosition();
-	Renderer::GetInstance().RenderTexture(*mTexture, pos.x, pos.y);
+	//Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
+	for (BaseComponent* pComp : m_pComponents)
+	{
+		pComp->Render();
+	}
 }
 
-void dae::GameObject::SetTexture(const std::string& filename)
-{
-	mTexture = ResourceManager::GetInstance().LoadTexture(filename);
-}
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	mTransform.SetPosition(x, y, 0.0f);
+	m_pTransform->SetPosition(x, y, 0.0f);
+}
+
+void dae::GameObject::AddComponent(dae::BaseComponent* pComp)
+{
+#if _DEBUG
+
+	for (auto *component : m_pComponents)
+	{
+		if (component == pComp)
+		{
+			dae::Logger::LogWarning(L"GameObject::AddComponent > GameObject already contains this component!");
+			return;
+		}
+	}
+#endif
+
+	m_pComponents.push_back(pComp);
+	pComp->m_pGameObject = this;
+}
+
+void dae::GameObject::RemoveComponent(dae::BaseComponent* pComp)
+{
+	auto it = find(m_pComponents.begin(), m_pComponents.end(), pComp);
+
+#if _DEBUG
+	if (it == m_pComponents.end())
+	{
+		dae::Logger::LogWarning(L"GameObject::RemoveComponent > Component is not attached to this GameObject!");
+		return;
+	}
+
+	if (typeid(*pComp) == typeid(dae::TransformComponent))
+	{
+		dae::Logger::LogWarning(L"GameObject::RemoveComponent > TransformComponent can't be removed!");
+		return;
+	}
+#endif
+
+	m_pComponents.erase(it);
+	pComp->m_pGameObject = nullptr;
 }
