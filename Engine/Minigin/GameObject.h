@@ -10,7 +10,7 @@ namespace dae
 	class GameObject : public SceneObject
 	{
 	public:
-		void Update() override;
+		void Update(float deltaTime) override;
 		void Render() const override;
 
 		void SetTexture(const std::string& filename);

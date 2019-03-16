@@ -75,21 +75,21 @@ void dae::Minigin::Run()
 	LoadGame();
 
 	{
-		auto t = std::chrono::high_resolution_clock::now();
+		bool doContinue = true;
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-
-		bool doContinue = true;
+		auto lastTime = std::chrono::high_resolution_clock::now();
 		while (doContinue)
 		{
+			auto currentTime = std::chrono::high_resolution_clock::now();
+			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+			
 			doContinue = input.ProcessInput();
-
-			sceneManager.Update();
+			sceneManager.Update(deltaTime);
 			renderer.Render();
 
-			t += std::chrono::milliseconds(msPerFrame);
-			std::this_thread::sleep_until(t);
+			lastTime = currentTime;
 		}
 	}
 
