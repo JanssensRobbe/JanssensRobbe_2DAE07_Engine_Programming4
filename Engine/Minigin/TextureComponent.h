@@ -5,7 +5,7 @@ namespace dae
 	class TextureComponent :public BaseComponent
 	{
 	public:
-		explicit TextureComponent(SDL_Texture* texture);
+		explicit TextureComponent(std::string fileName);
 		virtual ~TextureComponent() = default;
 		TextureComponent(const TextureComponent& other) = delete;
 		TextureComponent(TextureComponent&& other) = delete;

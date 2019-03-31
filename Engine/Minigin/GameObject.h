@@ -8,8 +8,8 @@
 
 namespace dae
 {
-	class TransformComponent;
 	class BaseComponent;
+	class TransformComponent;
 	class GameObject : public SceneObject
 	{
 	public:
@@ -17,11 +17,10 @@ namespace dae
 		void AddComponent(BaseComponent* pComp);
 		void RemoveComponent(BaseComponent* pComp);
 
-		void RootUpdate(float deltaTime);
-		virtual void Update(float deltaTime) { UNREFERENCED_PARAMETER(deltaTime); }
+		void Update(float deltaTime) override;
 		void Render() const override;
 
-		void SetPosition(float x, float y);
+		void SetPosition(float x, float y, float z);
 
 		TransformComponent* GetTransform() const { return m_pTransform; }
 

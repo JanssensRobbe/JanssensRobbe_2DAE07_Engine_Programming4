@@ -7,22 +7,30 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include <iostream>
+#include <string>
 
 
-dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font)
-	: mNeedsUpdate(true)
-	, mText(text)
-	, mFont(font)
-	, mTexture(nullptr)
+dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, bool IsFpsCountOn)
+	: m_NeedsUpdate(true )
+	, m_Text(text)
+	, m_Font(font)
+	, m_Texture(nullptr)
+	, m_FpsCount(0)
+	, m_IsFpsOn( IsFpsCountOn )
 { }
 
 void dae::TextComponent::Update(float deltaTime)
 {
-	UNREFERENCED_PARAMETER(deltaTime);
-	if (mNeedsUpdate)
+	if (m_IsFpsOn)
+	{
+		m_FpsCount = int(1 / deltaTime);
+		m_Text = std::to_string(m_FpsCount);
+	}
+	if (m_NeedsUpdate)
 	{
 		const SDL_Color color = { 255,255,255 }; // only white text is supported now
-		const auto surf = TTF_RenderText_Blended(mFont->GetFont(), mText.c_str(), color);
+		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
 		if (surf == nullptr) 
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -33,23 +41,23 @@ void dae::TextComponent::Update(float deltaTime)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		mTexture = std::make_shared<Texture2D>(texture);
+		m_Texture = std::make_shared<Texture2D>(texture);
 	}
 }
 
 void dae::TextComponent::Render()
 {
-	if (mTexture != nullptr)
+	if (m_Texture != nullptr)
 	{
 		const auto pos = GetGameObject()->GetTransform()->GetPosition();
-		Renderer::GetInstance().RenderTexture(*mTexture, pos.x, pos.y);
+		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
 	}
 }
 
 void dae::TextComponent::SetText(const std::string& text)
 {
-	mText = text;
-	mNeedsUpdate = true;
+	m_Text = text;
+	m_NeedsUpdate = true;
 }
 
 

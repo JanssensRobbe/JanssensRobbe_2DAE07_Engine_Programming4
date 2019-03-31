@@ -2,7 +2,6 @@
 #include "GameObject.h"
 namespace dae
 {
-	class TransformComponent;
 	class BaseComponent
 	{
 	public:
@@ -13,9 +12,8 @@ namespace dae
 		BaseComponent& operator=(BaseComponent&& other) noexcept = delete;
 		BaseComponent();
 		virtual ~BaseComponent() = default;
-
+		dae::TransformComponent* GetTransform() const;
 		GameObject* GetGameObject() const { return m_pGameObject; }
-		TransformComponent* GetTransform() const;
 
 	protected:
 

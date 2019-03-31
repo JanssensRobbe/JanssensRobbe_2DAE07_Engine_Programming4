@@ -36,30 +36,32 @@ void dae::Minigin::Initialize()
 	Renderer::GetInstance().Init(window);
 }
 
-/**
- * Code constructing the scene world starts here
- */
+/*Code constructing the scene world starts here*/
 void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
-	auto texture{ ResourceManager::GetInstance().LoadTexture("background.jpg") };
-	TextureComponent TextureComp{ texture->GetSDLTexture() };
-	go->AddComponent(&TextureComp);
+	TextureComponent* TextureComp = new TextureComponent{ "background.jpg" };
+	go->AddComponent(TextureComp);
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
-	auto texture2{ ResourceManager::GetInstance().LoadTexture("background.jpg") };
-	TextureComponent TextureComp2{ texture2->GetSDLTexture() };
-	go->AddComponent(&TextureComp2);
-	go->SetPosition(216, 180);
+	TextureComponent* TextureComp2 = new TextureComponent{ "logo.png" };
+	go->AddComponent(TextureComp2);
+	go->SetPosition(216, 180,0);
 	scene.Add(go);
 
 	auto to = std::make_shared<GameObject>();
-	TextComponent TextComp{ "Test",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)};
-	to->AddComponent(&TextComp);
-	to->SetPosition(80, 20);
+	TextComponent* TextComp = new TextComponent{ "Programming 4 Assignment",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)};
+	to->AddComponent(TextComp);
+	to->SetPosition(80, 20,0);
+	scene.Add(to);
+
+	to = std::make_shared<GameObject>();
+	TextComponent* TextComp2 = new TextComponent{"",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36), true};
+	to->AddComponent(TextComp2);
+	to->SetPosition(580, 0, 0);
 	scene.Add(to);
 }
 
@@ -92,6 +94,9 @@ void dae::Minigin::Run()
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 			
 			doContinue = input.ProcessInput();
+			if (input.handleInput() != nullptr)
+				input.handleInput()->execute();
+
 			sceneManager.Update(deltaTime);
 			renderer.Render();
 

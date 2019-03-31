@@ -1,12 +1,13 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
+#pragma comment (lib, "xinput.lib")
 #include <SDL.h>
 
 
 bool dae::InputManager::ProcessInput()
 {
-	ZeroMemory(&currentState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &currentState);
+	ZeroMemory(&m_InputState, sizeof(XINPUT_STATE));
+	XInputGetState(0, &m_InputState);
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -14,10 +15,10 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 		if (e.type == SDL_KEYDOWN) {
-			
+
 		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
+
 		}
 	}
 
@@ -26,17 +27,25 @@ bool dae::InputManager::ProcessInput()
 
 bool dae::InputManager::IsPressed(ControllerButton button) const
 {
-	switch (button)
+	if (m_InputState.Gamepad.wButtons == int(button))
 	{
-	case ControllerButton::ButtonA:
-		return currentState.Gamepad.wButtons & XINPUT_GAMEPAD_A;
-	case ControllerButton::ButtonB:
-		return currentState.Gamepad.wButtons & XINPUT_GAMEPAD_B;
-	case ControllerButton::ButtonX:
-		return currentState.Gamepad.wButtons & XINPUT_GAMEPAD_X;
-	case ControllerButton::ButtonY:
-		return currentState.Gamepad.wButtons & XINPUT_GAMEPAD_Y;
-	default: return false;
+		return true;
 	}
+	return false;
 }
 
+dae::Command* dae::InputManager::handleInput()
+{
+	FireCommand* buttonX_ = new FireCommand{};
+	DuckCommand* buttonY_ = new DuckCommand{};
+	FartCommand* buttonA_ = new FartCommand{};
+	JumpCommand* buttonB_ = new JumpCommand{};
+
+	if (IsPressed(ControllerButton::ButtonX)) return buttonX_;
+	if (IsPressed(ControllerButton::ButtonY)) return buttonY_;
+	if (IsPressed(ControllerButton::ButtonA)) return buttonA_;
+	if (IsPressed(ControllerButton::ButtonB)) return buttonB_;
+
+	// Nothing pressed, so do nothing.
+	return NULL;
+}

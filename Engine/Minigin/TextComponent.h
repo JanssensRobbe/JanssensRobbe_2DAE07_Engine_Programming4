@@ -14,17 +14,19 @@ namespace dae
 		void SetText(const std::string& text);
 
 
-		explicit TextComponent(const std::string& text, std::shared_ptr<Font> font);
+		explicit TextComponent(const std::string& text, std::shared_ptr<Font> font, bool IsFpsCountOn = false);
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
 	private:
-		bool mNeedsUpdate;
-		std::string mText;
-		std::shared_ptr<Font> mFont;
-		std::shared_ptr<Texture2D> mTexture;
+		bool m_NeedsUpdate;
+		bool m_IsFpsOn;
+		std::string m_Text;
+		std::shared_ptr<Font> m_Font;
+		std::shared_ptr<Texture2D> m_Texture;
+		int m_FpsCount;
 	};
 
 }

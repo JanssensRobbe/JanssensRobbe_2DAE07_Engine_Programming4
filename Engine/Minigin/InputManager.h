@@ -1,24 +1,29 @@
 #pragma once
+#include "windows.h"
 #include <XInput.h>
 #include "Singleton.h"
+#include "Command.h"
 
 namespace dae
 {
 	enum class ControllerButton
 	{
-		ButtonA,
-		ButtonB,
-		ButtonX,
-		ButtonY
+		ButtonA = XINPUT_GAMEPAD_A,
+		ButtonB = XINPUT_GAMEPAD_B,
+		ButtonX = XINPUT_GAMEPAD_X,
+		ButtonY = XINPUT_GAMEPAD_Y
 	};
 
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput();
-		bool IsPressed(ControllerButton button) const;
+		Command* handleInput();
+		
 	private:
-		XINPUT_STATE currentState{};
+		XINPUT_STATE m_InputState{};
+		XINPUT_GAMEPAD m_Controller{};
+		bool IsPressed(ControllerButton button) const;
 	};
 
 }

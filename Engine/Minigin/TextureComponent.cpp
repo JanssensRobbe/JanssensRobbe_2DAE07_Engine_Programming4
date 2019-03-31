@@ -5,8 +5,8 @@
 #include "Renderer.h"
 
 
-dae::TextureComponent::TextureComponent(SDL_Texture* texture)
-	:m_pTexture{ new Texture2D{ texture } }
+dae::TextureComponent::TextureComponent(std::string fileName)
+	:m_pTexture{ ResourceManager::GetInstance().LoadTexture(fileName) }
 {
 }
 

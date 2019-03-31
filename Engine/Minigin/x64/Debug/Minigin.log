@@ -1,10 +1,4 @@
-﻿  BaseComponent.cpp
-  GameObject.cpp
-  Minigin.cpp
-  TextComponent.cpp
-  TextureComponent.cpp
-  TransformComponent.cpp
-  Generating Code...
+﻿  Minigin.cpp
   Minigin.vcxproj -> C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\x64\Debug\Minigin.exe
   C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2\lib\x64\SDL2.dll
   1 File(s) copied
