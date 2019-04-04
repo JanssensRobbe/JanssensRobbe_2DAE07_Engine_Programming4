@@ -2,6 +2,7 @@
 #include "SpriteComponent.h"
 
 
+
 dae::SpriteComponent::SpriteComponent(const std::string& fileName, const Vector2f& displacement, int nrCols, int nrRows, float frameSec)
 	:m_Cols{ nrCols }
 	, m_Rows{ nrRows }
@@ -36,12 +37,13 @@ int dae::SpriteComponent::GetNrFrames() const
 
 void dae::SpriteComponent::Render()
 {
-	float frameWidth{ m_pTexture->GetWidth() / m_Cols };
-	float frameHeight{ m_pTexture->GetHeight() / m_Rows };
+	float frameWidth{ 128.0f };
+	float frameHeight{ 128.0f };
+	int row = m_ActFrame / m_Cols;
+	int col = m_ActFrame % m_Cols;
+	auto pos = GetTransform()->GetPosition();
+	Rectf destRect{ pos.x + m_Displacement.x, pos.y + m_Displacement.y, frameWidth, frameHeight};
+	Rectf srcRect{ frameWidth * col, frameHeight * row, frameWidth, frameHeight };
 
-	Rectf destRect{ pos.x + m_Displacement.x, pos.y + m_Displacement.y, frameWidth * scale, frameHeight * scale };
-	Rectf srcRect{ frameWidth * m_ActFrame, frameHeight * row, frameWidth, frameHeight };
-
-	m_pTexture->Render(destRect, srcRect);
+	m_pTexture->Render(destRect,srcRect);
 }
-

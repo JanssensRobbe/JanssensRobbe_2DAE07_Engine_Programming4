@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include "TextComponent.h"
 #include "TextureComponent.h"
+#include "SpriteComponent.h"
 #include "GameObject.h"
 #include "Scene.h"
 
@@ -62,6 +63,12 @@ void dae::Minigin::LoadGame() const
 	TextComponent* TextComp2 = new TextComponent{"",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36), true};
 	to->AddComponent(TextComp2);
 	to->SetPosition(580, 0, 0);
+	scene.Add(to);
+
+	to = std::make_shared<GameObject>();
+	SpriteComponent* SpriteComp = new SpriteComponent{ "TestSprite.png",Vector2f{0.0f,0.0f},4,2,1.0f};
+	to->AddComponent(SpriteComp);
+	to->SetPosition(200, 200, 0);
 	scene.Add(to);
 }
 
