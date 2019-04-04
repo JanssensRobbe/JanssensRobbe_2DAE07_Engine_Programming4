@@ -83,6 +83,12 @@
     <ClInclude Include="SpriteComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -135,6 +141,12 @@
     </ClCompile>
     <ClCompile Include="SpriteComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2f.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Structs.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
