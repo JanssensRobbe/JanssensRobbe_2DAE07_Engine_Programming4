@@ -12,7 +12,8 @@
 
 
 dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, bool IsFpsCountOn)
-	: m_NeedsUpdate(true )
+	:BaseComponent{}
+	,m_NeedsUpdate(true )
 	, m_Text(text)
 	, m_Font(font)
 	, m_Texture(nullptr)

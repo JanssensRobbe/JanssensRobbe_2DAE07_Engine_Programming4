@@ -89,6 +89,15 @@
     <ClInclude Include="Structs.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -146,6 +155,15 @@
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="Structs.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>

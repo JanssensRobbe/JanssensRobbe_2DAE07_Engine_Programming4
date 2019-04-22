@@ -3,11 +3,14 @@
 
 
 
-dae::SpriteComponent::SpriteComponent(const std::string& fileName, const Vector2f& displacement, int nrCols, int nrRows, float frameSec)
-	:m_Cols{ nrCols }
+dae::SpriteComponent::SpriteComponent(const std::string& fileName, int nrCols, int nrRows, float frameSec, float frameSize, int startRow, float size)
+	:BaseComponent{}
+	,m_Cols{ nrCols }
 	, m_Rows{ nrRows }
 	, m_FrameSec{ frameSec }
-	, m_Displacement{ displacement }
+	, m_FrameSize{frameSize}
+	, m_StartRow{startRow}
+	, m_Size{size}
 {
 	m_pTexture = new TextureComponent(fileName);
 }
@@ -37,13 +40,13 @@ int dae::SpriteComponent::GetNrFrames() const
 
 void dae::SpriteComponent::Render()
 {
-	float frameWidth{ 128.0f };
-	float frameHeight{ 128.0f };
-	int row = m_ActFrame / m_Cols;
+	int row = m_StartRow + m_ActFrame / m_Cols;
+	if (row > m_Rows)
+		row -= m_Rows;
 	int col = m_ActFrame % m_Cols;
 	auto pos = GetTransform()->GetPosition();
-	Rectf destRect{ pos.x + m_Displacement.x, pos.y + m_Displacement.y, frameWidth, frameHeight};
-	Rectf srcRect{ frameWidth * col, frameHeight * row, frameWidth, frameHeight };
+	Rectf destRect{ pos.x, pos.y, m_FrameSize * m_Size, m_FrameSize * m_Size };
+	Rectf srcRect{ m_FrameSize * col, m_FrameSize * row, m_FrameSize, m_FrameSize };
 
-	m_pTexture->Render(destRect,srcRect);
+	m_pTexture->Render(destRect, srcRect);
 }

@@ -12,7 +12,8 @@
 #include "SpriteComponent.h"
 #include "GameObject.h"
 #include "Scene.h"
-
+#include "CharacterComponent.h"
+#include "Level.h"
 
 void dae::Minigin::Initialize()
 {
@@ -25,8 +26,8 @@ void dae::Minigin::Initialize()
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		640,
-		480,
+		672,
+		864,
 		SDL_WINDOW_OPENGL
 	);
 	if (window == nullptr) 
@@ -42,33 +43,24 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	TextureComponent* TextureComp = new TextureComponent{ "background.jpg" };
-	go->AddComponent(TextureComp);
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	TextureComponent* TextureComp2 = new TextureComponent{ "logo.png" };
-	go->AddComponent(TextureComp2);
-	go->SetPosition(216, 180,0);
-	scene.Add(go);
-
 	auto to = std::make_shared<GameObject>();
-	TextComponent* TextComp = new TextComponent{ "Programming 4 Assignment",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36)};
-	to->AddComponent(TextComp);
-	to->SetPosition(80, 20,0);
+	LevelComponent* LevelComp = new LevelComponent();
+	to->AddComponent(LevelComp);
+	to->SetPosition(0, 0, 0);
 	scene.Add(to);
 
 	to = std::make_shared<GameObject>();
 	TextComponent* TextComp2 = new TextComponent{"",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36), true};
 	to->AddComponent(TextComp2);
-	to->SetPosition(580, 0, 0);
+	to->SetPosition(630, 0, 0);
 	scene.Add(to);
 
+
 	to = std::make_shared<GameObject>();
-	SpriteComponent* SpriteComp = new SpriteComponent{ "TestSprite.png",Vector2f{0.0f,0.0f},4,2,1.0f};
-	to->AddComponent(SpriteComp);
-	to->SetPosition(200, 200, 0);
+	SpriteComponent* SpriteComp5 = new SpriteComponent{"DigDug.png",2,1,0.2f,16.0f,8,3.0f };
+	to->AddComponent(SpriteComp5);
+	CharacterComponent* Character1 = new CharacterComponent{0, *SpriteComp5 };
+	to->AddComponent(Character1);
 	scene.Add(to);
 }
 
@@ -101,8 +93,6 @@ void dae::Minigin::Run()
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 			
 			doContinue = input.ProcessInput();
-			if (input.handleInput() != nullptr)
-				input.handleInput()->execute();
 
 			sceneManager.Update(deltaTime);
 			renderer.Render();

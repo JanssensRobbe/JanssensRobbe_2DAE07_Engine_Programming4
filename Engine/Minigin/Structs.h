@@ -25,3 +25,15 @@ struct Rectf
 	float height;
 
 };
+
+namespace dae
+{
+	enum class State
+	{
+		Walking,
+		Idle,
+		Pumping,
+		Digging
+
+	};
+}

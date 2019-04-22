@@ -2,7 +2,8 @@
 #include "TransformComponent.h"
 
 dae::TransformComponent::TransformComponent()
-	:m_Position{ 0, 0, 0 }
+	:BaseComponent{}
+	,m_Position{ 0, 0, 0 }
 {
 }
 
@@ -11,6 +12,12 @@ void dae::TransformComponent::SetPosition(const float x, const float y, const fl
 	m_Position.x = x;
 	m_Position.y = y;
 	m_Position.z = z;
+}
+
+void dae::TransformComponent::SetPosition(const float x, const float y)
+{
+		m_Position.x = x;
+		m_Position.y = y;
 }
 
 void dae::TransformComponent::Render() {}

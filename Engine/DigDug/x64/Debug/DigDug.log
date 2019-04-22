@@ -1,0 +1,6 @@
+﻿  DigDug.cpp
+MainGame.obj : error LNK2019: unresolved external symbol "public: virtual void __cdecl dae::Minigin::Initialize(void)" (?Initialize@Minigin@dae@@UEAAXXZ) referenced in function "public: virtual void __cdecl dae::MainGame::Initialize(void)" (?Initialize@MainGame@dae@@UEAAXXZ)
+MainGame.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl dae::Minigin::LoadGame(void)const " (?LoadGame@Minigin@dae@@UEBAXXZ)
+MainGame.obj : error LNK2019: unresolved external symbol "public: virtual void __cdecl dae::Minigin::Cleanup(void)" (?Cleanup@Minigin@dae@@UEAAXXZ) referenced in function "public: virtual void __cdecl dae::MainGame::Cleanup(void)" (?Cleanup@MainGame@dae@@UEAAXXZ)
+MainGame.obj : error LNK2019: unresolved external symbol "public: virtual void __cdecl dae::Minigin::Run(void)" (?Run@Minigin@dae@@UEAAXXZ) referenced in function "public: virtual void __cdecl dae::MainGame::Run(void)" (?Run@MainGame@dae@@UEAAXXZ)
+C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\x64\Debug\DigDug.exe : fatal error LNK1120: 4 unresolved externals

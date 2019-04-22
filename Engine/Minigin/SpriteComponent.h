@@ -9,8 +9,9 @@ namespace dae {
 	public:
 		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
-
-		SpriteComponent(const std::string& fileName, const Vector2f& displacement, int nrCols, int nrRows, float frameSec);
+		void SetRow(int row) { m_StartRow = row; }
+		void SetColumn(int column) { m_Cols = column; }
+		SpriteComponent(const std::string& fileName, int nrCols, int nrRows, float frameSec, float frameSize, int startRow = 0, float size = 1);
 		virtual ~SpriteComponent();
 		SpriteComponent(const SpriteComponent& other) = delete;
 		SpriteComponent(SpriteComponent&& other) = delete;
@@ -18,13 +19,14 @@ namespace dae {
 		SpriteComponent& operator=(SpriteComponent&& other) = delete;
 	private:
 		const TextureComponent* m_pTexture;
-		Vector2f m_Displacement;
-		const int m_Cols;
+		int m_Cols;
 		const int m_Rows;
 		float m_FrameSec;
 		float m_AccuSec;
 		int m_ActFrame;
-
+		float m_FrameSize;
+		int m_StartRow;
+		float m_Size;
 		int GetNrFrames() const;
 	};
 }

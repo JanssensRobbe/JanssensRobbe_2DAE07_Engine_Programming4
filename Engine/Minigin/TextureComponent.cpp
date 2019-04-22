@@ -6,7 +6,8 @@
 
 
 dae::TextureComponent::TextureComponent(std::string fileName)
-	:m_pTexture{ ResourceManager::GetInstance().LoadTexture(fileName) }
+	:BaseComponent{}
+	,m_pTexture{ ResourceManager::GetInstance().LoadTexture(fileName) }
 {
 }
 
