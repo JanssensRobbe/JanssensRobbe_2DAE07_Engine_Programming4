@@ -1,5 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 namespace dae
 {
@@ -14,7 +16,7 @@ namespace dae
 		void SetText(const std::string& text);
 
 
-		explicit TextComponent(const std::string& text, std::shared_ptr<Font> font, bool IsFpsCountOn = false);
+		explicit TextComponent(const std::string& text, std::shared_ptr<Font> font, SDL_Color color = {255,255,255}, bool IsFpsCountOn = false);
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
@@ -27,6 +29,7 @@ namespace dae
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_Texture;
 		int m_FpsCount;
+		SDL_Color m_Color;
 	};
 
 }

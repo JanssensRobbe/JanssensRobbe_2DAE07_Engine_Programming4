@@ -15,12 +15,6 @@ dae::SpriteComponent::SpriteComponent(const std::string& fileName, int nrCols, i
 	m_pTexture = new TextureComponent(fileName);
 }
 
-dae::SpriteComponent::~SpriteComponent()
-{
-	delete m_pTexture;
-	m_pTexture = nullptr;
-}
-
 void dae::SpriteComponent::Update(float deltaTime)
 {
 	m_AccuSec += deltaTime;

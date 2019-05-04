@@ -12,7 +12,11 @@ namespace dae {
 		void SetRow(int row) { m_StartRow = row; }
 		void SetColumn(int column) { m_Cols = column; }
 		SpriteComponent(const std::string& fileName, int nrCols, int nrRows, float frameSec, float frameSize, int startRow = 0, float size = 1);
-		virtual ~SpriteComponent();
+		virtual ~SpriteComponent()
+		{
+			delete m_pTexture;
+			m_pTexture = nullptr;
+		}
 		SpriteComponent(const SpriteComponent& other) = delete;
 		SpriteComponent(SpriteComponent&& other) = delete;
 		SpriteComponent& operator=(const SpriteComponent& other) = delete;

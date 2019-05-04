@@ -11,7 +11,13 @@ dae::GameObject::GameObject()
 {
 }
 
-dae::GameObject::~GameObject() = default;
+dae::GameObject::~GameObject()
+{
+	for (BaseComponent* pComp : m_pComponents)
+	{
+		delete pComp;
+	}
+};
 
 void dae::GameObject::Update(float deltaTime)
 {
@@ -32,9 +38,9 @@ void dae::GameObject::Render() const
 }
 
 
-void dae::GameObject::SetPosition(float x, float y, float z)
+void dae::GameObject::SetPosition(float x, float y)
 {
-	m_pTransform->SetPosition(x, y, z);
+	m_pTransform->SetPosition(x, y);
 }
 
 void dae::GameObject::AddComponent(dae::BaseComponent* pComp)

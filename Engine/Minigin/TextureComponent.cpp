@@ -8,6 +8,7 @@
 dae::TextureComponent::TextureComponent(std::string fileName)
 	:BaseComponent{}
 	,m_pTexture{ ResourceManager::GetInstance().LoadTexture(fileName) }
+	, m_Pos{0.0f,0.0f}
 {
 }
 
@@ -25,8 +26,7 @@ void dae::TextureComponent::Render()
 {
 	if (m_pTexture != nullptr)
 	{
-		const auto pos = GetGameObject()->GetTransform()->GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
+		Renderer::GetInstance().RenderTexture(*m_pTexture, m_Pos.x, m_Pos.y);
 	}
 }
 

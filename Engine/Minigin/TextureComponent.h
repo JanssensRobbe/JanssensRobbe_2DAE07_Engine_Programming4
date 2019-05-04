@@ -14,7 +14,7 @@ namespace dae
 		TextureComponent& operator=(TextureComponent&& other) = delete;
 
 		void SetTexture(const std::string& filename);
-
+		void SetPosition(Point2f pos) { m_Pos = pos; }
 		void Render(Rectf destRect, Rectf srcRect) const;
 	protected:
 		 virtual void Update(float deltaTime) override;
@@ -22,6 +22,7 @@ namespace dae
 		 
 	private:
 		std::shared_ptr<Texture2D> m_pTexture;
+		Point2f m_Pos;
 	};
 }
 

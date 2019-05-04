@@ -5,6 +5,8 @@
 #include <glm/vec3.hpp>
 #pragma warning(pop)
 
+#include "Structs.h"
+
 
 
 namespace dae
@@ -12,7 +14,7 @@ namespace dae
 	class TransformComponent final: public BaseComponent
 	{
 	private:
-		glm::vec3 m_Position;
+		Point2f m_Position;
 	public:
 		TransformComponent(const TransformComponent& other) = delete;
 		TransformComponent(TransformComponent&& other) noexcept = delete;
@@ -24,8 +26,7 @@ namespace dae
 
 		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
-		const glm::vec3& GetPosition() const { return m_Position; }
-		void SetPosition(const float x, const float y, const float z);
+		const Point2f& GetPosition() const { return m_Position; }
 		void SetPosition(const float x, const float y);
 	};
 }

@@ -20,7 +20,7 @@ namespace dae
 		void Update(float deltaTime) override;
 		void Render() const override;
 
-		void SetPosition(float x, float y, float z);
+		void SetPosition(float x, float y);
 
 		TransformComponent* GetTransform() const { return m_pTransform; }
 
