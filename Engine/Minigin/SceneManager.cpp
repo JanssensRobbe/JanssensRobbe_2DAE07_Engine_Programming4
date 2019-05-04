@@ -2,25 +2,21 @@
 #include "SceneManager.h"
 #include "OnePlayerScene.h"
 #include "StartMenuScene.h"
+#include "Scene.h"
 
 
 void dae::SceneManager::Update(float deltaTime)
 {
-	for(auto scene : m_Scenes)
-	{
-		scene->Update(deltaTime);
-	}
+
+	m_ActiveScene->Update(deltaTime);
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto scene : m_Scenes)
-	{
-		scene->Render();
-	}
+	m_ActiveScene->Render();
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name, SceneType type)
+std::shared_ptr<dae::Scene> dae::SceneManager::CreateScene(const std::string& name, SceneType type)
 {
 	std::shared_ptr<Scene> scene;
 	switch (type)
@@ -33,10 +29,19 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name, SceneType ty
 		break;
 	}
 	m_Scenes.push_back(scene);
-	return *scene;
+	return scene;
 }
 
-dae::Scene& dae::SceneManager::GetActiveScene()
+std::shared_ptr<dae::Scene> dae::SceneManager::GetActiveScene()
 {
-	return *m_Scenes[0];
+	return m_ActiveScene;
+}
+
+void dae::SceneManager::SetActiveScene(std::shared_ptr<Scene> activeScene)
+{
+	for (auto scene : m_Scenes)
+	{
+		if (scene == activeScene)
+			m_ActiveScene = scene;
+	}
 }

@@ -31,7 +31,7 @@ dae::LevelComponent::LevelComponent()
 void dae::LevelComponent::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
-	m_PlayerPosition = SceneManager::GetInstance().GetActiveScene().GetPlayerPosition();
+	m_PlayerPosition = SceneManager::GetInstance().GetActiveScene()->GetPlayerPosition();
 
 	for (int i{}; i < m_pTiles.size() - 1; i++)
 	{
@@ -43,7 +43,7 @@ void dae::LevelComponent::Update(float deltaTime)
 				m_pTiles[i]->tileName = TileName::Black;
 			}
 
-			switch (SceneManager::GetInstance().GetActiveScene().GetPlayerDirection())
+			switch (SceneManager::GetInstance().GetActiveScene()->GetPlayerDirection())
 			{
 				case dae::Direction::right:
 					if (i + 18 > m_pTiles.size())

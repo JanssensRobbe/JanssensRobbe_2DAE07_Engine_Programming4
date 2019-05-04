@@ -40,29 +40,29 @@ void dae::CharacterComponent::Update(float elapsedTime)
 
 	m_PlayerState = m_pCommand->GetPlayerState();
 	if(m_PlayerState != dae::State::Idle || m_PlayerState != dae::State::Pumping)
-		SceneManager::GetInstance().GetActiveScene().SetPlayerDirection(direction);
+		SceneManager::GetInstance().GetActiveScene()->SetPlayerDirection(direction);
 	m_pCommand->execute(GetTransform(), elapsedTime);
 	m_UsePreviousDirection = m_pCommand->GetUsePrevious();
 
 	if (m_PlayerState == dae::State::Idle || m_PlayerState == dae::State::Pumping)
 	{
-		SceneManager::GetInstance().GetActiveScene().SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f,m_PlayerPos.y - 24.0f));
+		SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f,m_PlayerPos.y - 24.0f));
 	}
 	else
 	{
 		switch (direction)
 		{
 		case dae::Direction::right:
-			SceneManager::GetInstance().GetActiveScene().SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
 			break;
 		case dae::Direction::left:
-			SceneManager::GetInstance().GetActiveScene().SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
 			break;
 		case dae::Direction::up:
-			SceneManager::GetInstance().GetActiveScene().SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
 			break;
 		case dae::Direction::down:
-			SceneManager::GetInstance().GetActiveScene().SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
 			break;
 		}
 	}

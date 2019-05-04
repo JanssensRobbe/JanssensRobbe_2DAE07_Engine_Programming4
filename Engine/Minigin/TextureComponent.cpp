@@ -8,7 +8,7 @@
 dae::TextureComponent::TextureComponent(std::string fileName)
 	:BaseComponent{}
 	,m_pTexture{ ResourceManager::GetInstance().LoadTexture(fileName) }
-	, m_Pos{0.0f,0.0f}
+	, m_Pos{ 0.0f,0.0f }
 {
 }
 

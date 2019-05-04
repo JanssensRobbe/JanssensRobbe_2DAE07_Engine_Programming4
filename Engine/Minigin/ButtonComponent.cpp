@@ -1,14 +1,15 @@
 #include "MiniginPCH.h"
 #include "ButtonComponent.h"
 #include "InputManager.h"
+#include "ResourceManager.h"
+#include "Scene.h"
 
 
 
-
-dae::ButtonComponent::ButtonComponent(Rectf destRect, TextureComponent& texture)
+dae::ButtonComponent::ButtonComponent(Rectf destRect, std::string texture)
 	:m_DestRect{destRect}
-	, m_pTexture{&texture}
-	,m_ActiveButton{true}
+	, m_pTexture{ new TextureComponent{texture} }
+	,m_ActiveButton{false}
 	,m_SceneName{""}
 	,m_SceneType{SceneType::None}
 {
@@ -17,16 +18,22 @@ dae::ButtonComponent::ButtonComponent(Rectf destRect, TextureComponent& texture)
 
 void dae::ButtonComponent::Update(float deltaTime)
 {
+
 	UNREFERENCED_PARAMETER(deltaTime);
-	auto command = InputManager::GetInstance().handleInput();
-	if (m_ActiveButton && command->GetIsButton() && m_SceneType != SceneType::None)
-	{
-		SceneManager::GetInstance().CreateScene(m_SceneName,m_SceneType);
-	}
 }
 
 void dae::ButtonComponent::Render()
 {
+	if (m_LoadScene)
+	{
+		std::shared_ptr<Scene> scene = SceneManager::GetInstance().CreateScene(m_SceneName, m_SceneType);
+		scene->LoadScene();
+		SceneManager::GetInstance().SetActiveScene(scene);
+	}
+	if(!m_ActiveButton)
+		m_pTexture->Render(m_DestRect, Rectf{0,0,m_DestRect.width,m_DestRect.height});
+	else
+		m_pTexture->Render(m_DestRect, Rectf{ 0,m_DestRect.height,m_DestRect.width,m_DestRect.height });
 }
 
 void dae::ButtonComponent::SetLoadedScene(std::string name, SceneType scene)

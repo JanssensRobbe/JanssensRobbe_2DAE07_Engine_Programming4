@@ -17,10 +17,6 @@ namespace dae
 		UpArrow = XINPUT_GAMEPAD_DPAD_UP,
 		DownArrow = XINPUT_GAMEPAD_DPAD_DOWN
 	};
-	enum class GameState {
-		MainMenu,
-		OnePlayer
-	};
 
 	class InputManager final : public Singleton<InputManager>
 	{
@@ -28,18 +24,22 @@ namespace dae
 		bool ProcessInput();
 		std::shared_ptr<dae::Command> handleInput();
 		void SetIsDigging(bool isDigging);
-		void SetGameState(GameState state);
+		void SetCommand(ControllerButton button, std::shared_ptr<dae::Command> command)
+		{
+			m_Commands.push_back(std::make_pair(button,command));
+		};
+
+		void ResetCommands() {
+			m_Commands.clear();
+		}
 	private:
-		//functions
-		std::shared_ptr<dae::Command> handleMainMenuInput();
-		std::shared_ptr<dae::Command> handleOnePlayerInput();
 		//member var
 		XINPUT_STATE m_InputState{};
 		XINPUT_GAMEPAD m_Controller{};
 		bool m_IsDigging{};
-		GameState m_State;
 		Direction m_LastDirection = Direction::right;
 		bool IsPressed(ControllerButton button) const;
+		std::vector<std::pair<ControllerButton, std::shared_ptr<dae::Command>>> m_Commands;
 	};
 
 }

@@ -2,6 +2,8 @@
 #include <iostream>
 #include "SpriteComponent.h"
 #include "Structs.h"
+#include "ButtonManager.h"
+
 namespace dae
 {
 	enum class Direction
@@ -14,7 +16,7 @@ namespace dae
 	class Command
 	{
 	public:
-		Command(Direction direction) 
+		Command(Direction direction = Direction::right) 
 			: m_Direction{ direction }
 			, m_XLimits{0,624}
 			, m_YLimits{48,768}
@@ -25,7 +27,7 @@ namespace dae
 		virtual void SetPreviousDirection(Direction direction) { m_PreviousDirection = direction; }
 		virtual bool GetUsePrevious() { return m_UsePreviousDirection; }
 		virtual ~Command() {};
-		virtual void execute(TransformComponent* transform, float elapsedTime) = 0;
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) = 0;
 		virtual void render(SpriteComponent* sprite, bool usePrevious) = 0;
 	protected:
 		Direction m_Direction;
@@ -162,7 +164,7 @@ namespace dae
 		WalkCommand(Direction direction) : Command{direction} {}
 		virtual bool GetIsButton() override { return false; }
 		virtual dae::State GetPlayerState() override { return dae::State::Walking; }
-		virtual void execute(TransformComponent* transform, float elapsedTime) {
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) {
 			Walk();
 			Move(m_MovementSpeed, elapsedTime, transform);
 		}
@@ -203,7 +205,7 @@ namespace dae
 		};
 		virtual dae::State GetPlayerState() override { return dae::State::Digging; }
 		virtual bool GetIsButton() override { return false; }
-		virtual void execute(TransformComponent* transform, float elapsedTime) {
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) {
 			Dig();
 			Move(m_DigSpeed, elapsedTime, transform);
 		}
@@ -236,13 +238,13 @@ namespace dae
 	class PumpCommand : public Command
 	{
 	public:
-		PumpCommand(Direction direction):Command{ direction } {}
+		PumpCommand(Direction direction = Direction::right):Command{ direction } {}
 		void Pump() {
 			std::cout << "Pump" << std::endl;
 		};
 		virtual dae::State GetPlayerState() override { return dae::State::Pumping; }
 		virtual bool GetIsButton() override { return false; }
-		virtual void execute(TransformComponent* transform, float elapsedTime) {
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) {
 			Pump();
 			UNREFERENCED_PARAMETER(elapsedTime);
 			UNREFERENCED_PARAMETER(transform);
@@ -257,10 +259,10 @@ namespace dae
 	class IdleCommand : public Command
 	{
 	public:
-		IdleCommand(Direction direction) : Command{ direction } {}
+		IdleCommand(Direction direction = Direction::right) : Command{ direction } {}
 		virtual bool GetIsButton() override { return false; }
 		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
-		virtual  void execute(TransformComponent* transform, float elapsedTime)
+		virtual  void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
 		{
 			UNREFERENCED_PARAMETER(elapsedTime);
 			UNREFERENCED_PARAMETER(transform);
@@ -290,13 +292,52 @@ namespace dae
 	class ButtonPressedCommand : public Command
 	{
 	public:
-		ButtonPressedCommand() : Command{Direction::right} {}
+		ButtonPressedCommand() : Command{} {}
 		virtual bool GetIsButton() override { return true; }
 		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
-		virtual void execute(TransformComponent* transform, float elapsedTime)
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
 		{
 			UNREFERENCED_PARAMETER(elapsedTime);
 			UNREFERENCED_PARAMETER(transform);
+			ButtonManager::GetInstance().GetActiveButton().SetSceneLoaded(true);
+		}
+		virtual void  render(SpriteComponent* sprite, bool usePrevious)
+		{
+			UNREFERENCED_PARAMETER(usePrevious);
+			UNREFERENCED_PARAMETER(sprite);
+		}
+	};
+
+	class ButtonDownCommand : public Command
+	{
+	public:
+		ButtonDownCommand() : Command{} {}
+		virtual bool GetIsButton() override { return true; }
+		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
+		{
+			UNREFERENCED_PARAMETER(elapsedTime);
+			UNREFERENCED_PARAMETER(transform);
+			ButtonManager::GetInstance().SetNextButtonActive();
+		}
+		virtual void  render(SpriteComponent* sprite, bool usePrevious)
+		{
+			UNREFERENCED_PARAMETER(usePrevious);
+			UNREFERENCED_PARAMETER(sprite);
+		}
+	};
+
+	class ButtonUpCommand : public Command
+	{
+	public:
+		ButtonUpCommand() : Command{} {}
+		virtual bool GetIsButton() override { return true; }
+		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
+		{
+			UNREFERENCED_PARAMETER(elapsedTime);
+			UNREFERENCED_PARAMETER(transform);
+			ButtonManager::GetInstance().SetPreviousButtonActive();
 		}
 		virtual void  render(SpriteComponent* sprite, bool usePrevious)
 		{

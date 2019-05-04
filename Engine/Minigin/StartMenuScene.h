@@ -8,6 +8,8 @@ namespace dae {
 		~StartMenuScene();
 
 		void LoadScene() override;
+
+		virtual void Update(float deltaTime) override;
 		StartMenuScene(const StartMenuScene& other) = delete;
 		StartMenuScene(StartMenuScene&& other) = delete;
 		StartMenuScene& operator=(const StartMenuScene& other) = delete;

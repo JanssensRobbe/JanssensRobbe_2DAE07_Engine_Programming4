@@ -19,7 +19,16 @@ dae::OnePlayerScene::~OnePlayerScene()
 
 void dae::OnePlayerScene::LoadScene()
 {
-	InputManager::GetInstance().SetGameState(GameState::OnePlayer);
+	InputManager::GetInstance().ResetCommands();
+	InputManager::GetInstance().SetCommand(dae::ControllerButton::ButtonA, std::make_shared<PumpCommand>());
+	InputManager::GetInstance().SetCommand(dae::ControllerButton::DownArrow, std::make_shared<WalkCommand>(dae::Direction::down));
+	InputManager::GetInstance().SetCommand(dae::ControllerButton::UpArrow, std::make_shared<WalkCommand>(dae::Direction::up));
+	InputManager::GetInstance().SetCommand(dae::ControllerButton::LeftArrow, std::make_shared<WalkCommand>(dae::Direction::left));
+	InputManager::GetInstance().SetCommand(dae::ControllerButton::RightArrow, std::make_shared<WalkCommand>(dae::Direction::right));
+
+
+
+
 	auto to = std::make_shared<GameObject>();
 	LevelComponent* LevelComp = new LevelComponent();
 	to->AddComponent(LevelComp);

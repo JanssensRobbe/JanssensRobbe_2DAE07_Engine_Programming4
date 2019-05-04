@@ -8,12 +8,15 @@ namespace dae {
 	class ButtonComponent :public BaseComponent
 	{
 	public:
-		ButtonComponent(Rectf destRect, TextureComponent& texture);
+		ButtonComponent(Rectf destRect, std::string texture);
 		virtual ~ButtonComponent() = default;
 
 		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
 		void SetLoadedScene(std::string name, SceneType scene);
+		void SetSceneLoaded(bool isLoaded) { m_LoadScene = isLoaded; }
+		void SetButtonActive(bool isActive) { m_ActiveButton = isActive; }
+		bool GetButtionActive() { return m_ActiveButton; }
 		ButtonComponent(const ButtonComponent& other) = delete;
 		ButtonComponent(ButtonComponent&& other) noexcept = delete;
 		ButtonComponent& operator=(const ButtonComponent& other) = delete;

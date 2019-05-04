@@ -8,12 +8,12 @@ namespace dae
 	class SceneObject;
 	class Scene
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name, SceneType type);
+		friend std::shared_ptr<dae::Scene> SceneManager::CreateScene(const std::string& name, SceneType type);
 	public:
 		void Add(const std::shared_ptr<SceneObject>& object);
 
-		void Update(float deltaTime);
-		void Render() const;
+		virtual void Update(float deltaTime);
+		virtual void Render() const;
 
 		virtual void LoadScene() = 0;
 		void SetPlayerPosition(Point2f position);
