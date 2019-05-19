@@ -10,5 +10,18 @@
 #define PCH_H
 
 // TODO: add headers that you want to pre-compile here
+//#include "targetver.h"
+#include <stdio.h>
+#include <iostream> // std::cout
+#include <sstream> // stringstream
+#include <tchar.h>
+#include <memory> // smart pointers
+#include <vector>
 
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+//#include "Log.h" // Various logging functions
+#include "TransformComponent.h" //always needed to get position
 #endif //PCH_H

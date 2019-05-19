@@ -1,13 +1,19 @@
 #pragma once
 #include "Singleton.h"
-#include "ButtonComponent.h"
+#include "./../DigDug/ButtonComponent.h"
 
 namespace dae {
 	class ButtonManager : public Singleton<ButtonManager>
 	{
 	public:
 		ButtonManager();
-		~ButtonManager();
+		~ButtonManager()
+		{
+			for (unsigned int i{}; i < m_Buttons.size(); i++)
+			{
+				delete m_Buttons[i];
+			}
+		}
 
 		ButtonComponent& GetActiveButton() 
 		{
@@ -24,7 +30,7 @@ namespace dae {
 			{
 				m_IsSwapped = true;
 				m_Buttons[m_ActiveButton]->SetButtonActive(false);
-				if (m_ActiveButton == m_Buttons.size() - 1)
+				if (m_ActiveButton == int(m_Buttons.size() - 1))
 					m_ActiveButton = 0;
 				else
 					++m_ActiveButton;

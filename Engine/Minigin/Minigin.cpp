@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "CharacterComponent.h"
+#include "./../DigDug/StartMenuScene.h"
 #include "Level.h"
 
 void dae::Minigin::Initialize()
@@ -35,14 +36,16 @@ void dae::Minigin::Initialize()
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
+	srand(UINT(time(NULL)));
+
 	Renderer::GetInstance().Init(window);
 }
 
 /*Code constructing the scene world starts here*/
 void dae::Minigin::LoadGame() const
 {
-	auto scene = SceneManager::GetInstance().CreateScene("OnePlayer",SceneType::StartMenu);
-	SceneManager::GetInstance().SetActiveScene(scene);
+	auto scene = SceneManager::GetInstance().CreateScene(SceneType::StartMenu,std::make_shared<StartMenuScene>("MainMenu"));
+	SceneManager::GetInstance().SetActiveScene(SceneType::StartMenu);
 	scene->LoadScene();
 }
 
@@ -69,13 +72,15 @@ void dae::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		auto lastTime = std::chrono::high_resolution_clock::now();
+
+		input.Initialize();
 		while (doContinue)
 		{
 			auto currentTime = std::chrono::high_resolution_clock::now();
 			float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 			
 			doContinue = input.ProcessInput();
-
+			input.Update();
 			sceneManager.Update(deltaTime);
 			renderer.Render();
 

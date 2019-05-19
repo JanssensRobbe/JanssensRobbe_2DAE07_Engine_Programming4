@@ -3,10 +3,12 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "InputManager.h"
+#include "./../DigDug/StoneComponent.h"
+#include <time.h>
 
 
 dae::LevelComponent::LevelComponent()
-	:m_PlayerPosition{0.0f,0.0f}
+	:m_PlayerPositions{}
 {
 	for (int i{}; i < 672; i += 48)
 	{
@@ -26,27 +28,34 @@ dae::LevelComponent::LevelComponent()
 				m_pTiles.push_back(new Tile{ new TextureComponent{ "Ground.png" }, Point2f{ float(i),float(j)}, TileName::Black});
 		}
 	}
+	for (int i{}; i < 4; ++i)
+	{
+		int row = rand() % 10 + 4;
+		int column = rand() % 14;
+		m_pStones.push_back(new StoneComponent{ new TextureComponent{"Stone.png"},column * 18 + row - 1,m_pTiles });
+	}
 }
 
 void dae::LevelComponent::Update(float deltaTime)
 {
-	UNREFERENCED_PARAMETER(deltaTime);
-	m_PlayerPosition = SceneManager::GetInstance().GetActiveScene()->GetPlayerPosition();
+	m_PlayerPositions = SceneManager::GetInstance().GetActiveScene()->GetPlayerPositions();
 
-	for (int i{}; i < m_pTiles.size() - 1; i++)
+	for (unsigned int j{}; j < m_PlayerPositions.size(); j++)
 	{
-		if (m_PlayerPosition.x >= m_pTiles[i]->Position.x && m_PlayerPosition.x < m_pTiles[i]->Position.x + 48
-			&& m_PlayerPosition.y <= m_pTiles[i]->Position.y && m_PlayerPosition.y > m_pTiles[i]->Position.y - 48)
+		for (unsigned int i{}; i < m_pTiles.size() - 1; i++)
 		{
-			if (m_pTiles[i]->tileName != TileName::Black && m_pTiles[i]->tileName != TileName::Sky)
+			if (m_PlayerPositions[j].x >= m_pTiles[i]->Position.x && m_PlayerPositions[j].x < m_pTiles[i]->Position.x + 48
+				&& m_PlayerPositions[j].y <= m_pTiles[i]->Position.y && m_PlayerPositions[j].y > m_pTiles[i]->Position.y - 48)
 			{
-				m_pTiles[i]->tileName = TileName::Black;
-			}
+				if (m_pTiles[i]->tileName != TileName::Black && m_pTiles[i]->tileName != TileName::Sky)
+				{
+					m_pTiles[i]->tileName = TileName::Black;
+				}
 
-			switch (SceneManager::GetInstance().GetActiveScene()->GetPlayerDirection())
-			{
+				switch (SceneManager::GetInstance().GetActiveScene()->GetPlayerDirection())
+				{
 				case dae::Direction::right:
-					if (i + 18 > m_pTiles.size())
+					if (i + 18 > int(m_pTiles.size()))
 					{
 						if (m_pTiles[i]->tileName != TileName::Black && m_pTiles[i]->tileName != TileName::Sky)
 							InputManager::GetInstance().SetIsDigging(true);
@@ -80,10 +89,10 @@ void dae::LevelComponent::Update(float deltaTime)
 					}
 					break;
 				case dae::Direction::up:
-						if (m_pTiles[i - 1]->tileName != TileName::Black && m_pTiles[i - 1]->tileName != TileName::Sky)
-							InputManager::GetInstance().SetIsDigging(true);
-						else
-							InputManager::GetInstance().SetIsDigging(false);
+					if (m_pTiles[i - 1]->tileName != TileName::Black && m_pTiles[i - 1]->tileName != TileName::Sky)
+						InputManager::GetInstance().SetIsDigging(true);
+					else
+						InputManager::GetInstance().SetIsDigging(false);
 					break;
 				case dae::Direction::down:
 					if (m_pTiles[i + 1]->tileName != TileName::Black)
@@ -91,14 +100,20 @@ void dae::LevelComponent::Update(float deltaTime)
 					else
 						InputManager::GetInstance().SetIsDigging(false);
 					break;
+				}
 			}
 		}
+	}
+
+	for (auto stone : m_pStones)
+	{
+		stone->Update(deltaTime);
 	}
 }
 
 void dae::LevelComponent::Render()
 {
-	for (int i{}; i < m_pTiles.size(); i++)
+	for (unsigned int i{}; i < m_pTiles.size(); i++)
 	{
 		if (m_pTiles[i]->tileName == TileName::Sky)
 		{
@@ -127,15 +142,12 @@ void dae::LevelComponent::Render()
 
 	}
 
+	for (auto stone : m_pStones)
+	{
+		stone->Render();
+	}
+
 	
 }
-
-void dae::LevelComponent::SetPlayerPosition(Point2f playerPosition)
-{
-	m_PlayerPosition.x = playerPosition.x;
-	m_PlayerPosition.y = playerPosition.y;
-}
-
-
 
 

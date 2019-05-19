@@ -16,19 +16,27 @@ namespace dae
 	class Command
 	{
 	public:
-		Command(Direction direction = Direction::right) 
+		Command(Direction direction = Direction::right)
 			: m_Direction{ direction }
-			, m_XLimits{0,624}
-			, m_YLimits{48,768}
+			, m_XLimits{ 0,624 }
+			, m_YLimits{ 48,768 }
 		{}
-		virtual dae::State GetPlayerState() = 0;
-		virtual bool GetIsButton() = 0;
+		virtual dae::State GetPlayerState() { return dae::State::Idle; }
+		virtual bool GetIsButton() { return false; }
 		virtual dae::Direction getPlayerDirection() { return m_Direction; }
 		virtual void SetPreviousDirection(Direction direction) { m_PreviousDirection = direction; }
 		virtual bool GetUsePrevious() { return m_UsePreviousDirection; }
 		virtual ~Command() {};
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) = 0;
-		virtual void render(SpriteComponent* sprite, bool usePrevious) = 0;
+		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
+		{
+			UNREFERENCED_PARAMETER(transform);
+			UNREFERENCED_PARAMETER(elapsedTime);
+		}
+		virtual void render(SpriteComponent* sprite, bool usePrevious)
+		{
+			UNREFERENCED_PARAMETER(sprite);
+			UNREFERENCED_PARAMETER(usePrevious);
+		}
 	protected:
 		Direction m_Direction;
 		Direction m_PreviousDirection;
@@ -41,9 +49,9 @@ namespace dae
 			if (m_Direction == Direction::right)
 			{
 				if (pos.x + newPos < m_XLimits.y
-					&& int(pos.y) % 48 == 0){
+					&& int(pos.y) % 48 == 0) {
 					m_UsePreviousDirection = false;
-					transform->SetPosition(pos.x + newPos,pos.y);
+					transform->SetPosition(pos.x + newPos, pos.y);
 				}
 				else if (pos.x + newPos >= m_XLimits.y)
 					transform->SetPosition(m_XLimits.y, pos.y);
@@ -67,7 +75,7 @@ namespace dae
 			{
 				if (pos.x + newPos > m_XLimits.x
 					&& int(pos.y) % 48 == 0) {
-					transform->SetPosition(pos.x - newPos,pos.y);
+					transform->SetPosition(pos.x - newPos, pos.y);
 					m_UsePreviousDirection = false;
 				}
 				else if (pos.x + newPos < m_XLimits.x)
@@ -140,12 +148,12 @@ namespace dae
 						{
 							transform->SetPosition(pos.x - newPos, pos.y);
 						}
-						else if(m_PreviousDirection == Direction::right)
+						else if (m_PreviousDirection == Direction::right)
 						{
 							transform->SetPosition(pos.x + newPos, pos.y);
 						}
 					}
-				}	
+				}
 			}
 		}
 	};
@@ -155,13 +163,13 @@ namespace dae
 	private:
 		float m_MovementSpeed = 50.0f;
 	public:
-	
-		 void Walk()
+
+		void Walk()
 		{
 			std::cout << "Walk" << std::endl;
 
 		}
-		WalkCommand(Direction direction) : Command{direction} {}
+		WalkCommand(Direction direction) : Command{ direction } {}
 		virtual bool GetIsButton() override { return false; }
 		virtual dae::State GetPlayerState() override { return dae::State::Walking; }
 		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) {
@@ -215,22 +223,22 @@ namespace dae
 			if (m_Direction == Direction::right && usePrevious == false
 				|| m_PreviousDirection == Direction::right && usePrevious == true)
 			{
-					sprite->SetRow(8);	
+				sprite->SetRow(8);
 			}
 			else if (m_Direction == Direction::left && usePrevious == false
 				|| m_PreviousDirection == Direction::left && usePrevious == true)
 			{
-					sprite->SetRow(11);
+				sprite->SetRow(11);
 			}
 			else if (m_Direction == Direction::up && usePrevious == false
 				|| m_PreviousDirection == Direction::up && usePrevious == true)
 			{
-					sprite->SetRow(1);
+				sprite->SetRow(1);
 			}
 			else if (m_Direction == Direction::down && usePrevious == false
 				|| m_PreviousDirection == Direction::down && usePrevious == true)
 			{
-					sprite->SetRow(17);
+				sprite->SetRow(17);
 			}
 		}
 	};
@@ -238,7 +246,7 @@ namespace dae
 	class PumpCommand : public Command
 	{
 	public:
-		PumpCommand(Direction direction = Direction::right):Command{ direction } {}
+		PumpCommand(Direction direction = Direction::right) :Command{ direction } {}
 		void Pump() {
 			std::cout << "Pump" << std::endl;
 		};
@@ -252,7 +260,21 @@ namespace dae
 		virtual void render(SpriteComponent* sprite, bool usePrevious)
 		{
 			UNREFERENCED_PARAMETER(usePrevious);
-			sprite->SetRow(7);
+			switch (m_Direction)
+			{
+			case Direction::right:
+				sprite->SetRow(7);
+				break;
+			case Direction::left:
+				sprite->SetRow(10);
+				break;
+			case Direction::up:
+				sprite->SetRow(3);
+				break;
+			case Direction::down:
+				sprite->SetRow(16);
+				break;
+			}
 		}
 	};
 
@@ -300,44 +322,6 @@ namespace dae
 			UNREFERENCED_PARAMETER(elapsedTime);
 			UNREFERENCED_PARAMETER(transform);
 			ButtonManager::GetInstance().GetActiveButton().SetSceneLoaded(true);
-		}
-		virtual void  render(SpriteComponent* sprite, bool usePrevious)
-		{
-			UNREFERENCED_PARAMETER(usePrevious);
-			UNREFERENCED_PARAMETER(sprite);
-		}
-	};
-
-	class ButtonDownCommand : public Command
-	{
-	public:
-		ButtonDownCommand() : Command{} {}
-		virtual bool GetIsButton() override { return true; }
-		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
-		{
-			UNREFERENCED_PARAMETER(elapsedTime);
-			UNREFERENCED_PARAMETER(transform);
-			ButtonManager::GetInstance().SetNextButtonActive();
-		}
-		virtual void  render(SpriteComponent* sprite, bool usePrevious)
-		{
-			UNREFERENCED_PARAMETER(usePrevious);
-			UNREFERENCED_PARAMETER(sprite);
-		}
-	};
-
-	class ButtonUpCommand : public Command
-	{
-	public:
-		ButtonUpCommand() : Command{} {}
-		virtual bool GetIsButton() override { return true; }
-		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
-		{
-			UNREFERENCED_PARAMETER(elapsedTime);
-			UNREFERENCED_PARAMETER(transform);
-			ButtonManager::GetInstance().SetPreviousButtonActive();
 		}
 		virtual void  render(SpriteComponent* sprite, bool usePrevious)
 		{

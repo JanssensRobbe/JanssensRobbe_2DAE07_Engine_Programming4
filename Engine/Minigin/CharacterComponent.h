@@ -12,7 +12,7 @@ namespace dae
 		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
 
-		CharacterComponent(int playerNumber, SpriteComponent& spriteComponent);
+		CharacterComponent(DWORD playerNumber, SpriteComponent& spriteComponent);
 		virtual ~CharacterComponent() = default;
 		CharacterComponent(const CharacterComponent& other) = delete;
 		CharacterComponent(CharacterComponent&& other) = delete;
@@ -22,12 +22,12 @@ namespace dae
 	private:
 		SpriteComponent* m_pSprite;
 		Direction m_HorizontalDirection, m_VerticalDirection;
-		int m_PlayerNumber;
+		DWORD m_PlayerNumber;
 		float m_MovementSpeed;
 		State m_PlayerState;
 		Point2f m_PlayerPos;
 		bool m_UsePreviousDirection;
-		std::shared_ptr<Command> m_pCommand;
+		Command* m_pCommand;
 	};
 }
 
