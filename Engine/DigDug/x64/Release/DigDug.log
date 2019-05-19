@@ -1,4 +1,0 @@
-﻿  pch.cpp
-  DigDug.cpp
-  MainGame.cpp
-LINK : fatal error LNK1181: cannot open input file 'Minigin.lib'

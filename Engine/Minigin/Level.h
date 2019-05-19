@@ -2,29 +2,13 @@
 #include <vector>
 #include "structs.h"
 #include "TextureComponent.h"
+#include "./../DigDug/StoneComponent.h"
 namespace dae
 {
-	class LevelComponent : public BaseComponent
+	
+	class LevelComponent: public BaseComponent
 	{
-		enum class TileName
-		{
-			Sky,
-			Ground1,
-			Ground2,
-			Ground3,
-			Ground4,
-			Black
-		};
-
-		struct Tile  
-		{
-			TextureComponent* Texture;
-			Point2f Position;
-			TileName tileName;
-		};
-
 	public:
-
 		LevelComponent();
 		virtual ~LevelComponent()
 		{
@@ -33,15 +17,19 @@ namespace dae
 				delete tile->Texture;
 				delete tile;
 			}
+			for (auto stone : m_pStones)
+			{
+				delete stone;
+			}
 		}
 
 		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
-		virtual void SetPlayerPosition(Point2f playerPosition);
 	private:
 
+		std::vector<StoneComponent*> m_pStones;
 		std::vector<Tile*> m_pTiles;
-		Point2f m_PlayerPosition;
+		std::vector<Point2f> m_PlayerPositions;
 	};
 }
 

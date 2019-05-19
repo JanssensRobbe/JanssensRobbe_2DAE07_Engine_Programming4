@@ -50,9 +50,6 @@
     <ClInclude Include="TextureComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="MiniginPCH.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -98,17 +95,12 @@
     <ClInclude Include="Level.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="OnePlayerScene.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="StartMenuScene.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonManager.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigin.h" />
+    <ClInclude Include="AStarPathFinding.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +143,6 @@
     <ClCompile Include="TextureComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="MiniginPCH.cpp">
       <Filter>Base</Filter>
     </ClCompile>
@@ -178,17 +167,14 @@
     <ClCompile Include="Level.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="OnePlayerScene.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="StartMenuScene.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonManager.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AStarPathFinding.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

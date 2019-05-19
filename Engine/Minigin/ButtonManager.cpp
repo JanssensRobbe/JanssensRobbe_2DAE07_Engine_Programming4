@@ -4,7 +4,3 @@
 dae::ButtonManager::ButtonManager()
 {
 }
-
-dae::ButtonManager::~ButtonManager()
-{
-}

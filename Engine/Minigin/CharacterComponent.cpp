@@ -8,7 +8,8 @@
 #include "Scene.h"
 
 
-dae::CharacterComponent::CharacterComponent(int playerNumber, SpriteComponent& spriteComponent)
+
+dae::CharacterComponent::CharacterComponent(DWORD playerNumber, SpriteComponent& spriteComponent)
 	:BaseComponent{}
 	, m_PlayerNumber{playerNumber}
 	, m_HorizontalDirection{Direction::right}
@@ -25,8 +26,8 @@ void dae::CharacterComponent::Update(float elapsedTime)
 {
 	m_PlayerPos = GetTransform()->GetPosition();
 	UNREFERENCED_PARAMETER(elapsedTime);
-	m_pCommand = InputManager::GetInstance().handleInput();
-	auto direction = m_pCommand->getPlayerDirection();
+	m_pCommand = InputManager::GetInstance().handleInput(GamepadIndex(m_PlayerNumber));
+	dae::Direction direction = m_pCommand->getPlayerDirection();
 	if (direction == Direction::up || direction == Direction::down)
 	{
 		m_VerticalDirection = direction;
@@ -46,23 +47,23 @@ void dae::CharacterComponent::Update(float elapsedTime)
 
 	if (m_PlayerState == dae::State::Idle || m_PlayerState == dae::State::Pumping)
 	{
-		SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f,m_PlayerPos.y - 24.0f));
+		SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f,m_PlayerPos.y - 24.0f),m_PlayerNumber);
 	}
 	else
 	{
 		switch (direction)
 		{
 		case dae::Direction::right:
-			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f), m_PlayerNumber);
 			break;
 		case dae::Direction::left:
-			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f), m_PlayerNumber);
 			break;
 		case dae::Direction::up:
-			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f), m_PlayerNumber);
 			break;
 		case dae::Direction::down:
-			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f));
+			SceneManager::GetInstance().GetActiveScene()->SetPlayerPosition(Point2f(m_PlayerPos.x + 24.0f, m_PlayerPos.y - 24.0f), m_PlayerNumber);
 			break;
 		}
 	}

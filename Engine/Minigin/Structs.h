@@ -26,8 +26,10 @@ struct Rectf
 
 };
 
+
 namespace dae
 {
+	class TextureComponent;
 	enum class State
 	{
 		Walking,
@@ -35,5 +37,22 @@ namespace dae
 		Pumping,
 		Digging
 
+	};
+
+	enum class TileName
+	{
+		Sky,
+		Ground1,
+		Ground2,
+		Ground3,
+		Ground4,
+		Black
+	};
+
+	struct Tile
+	{
+		TextureComponent* Texture;
+		Point2f Position;
+		TileName tileName;
 	};
 }

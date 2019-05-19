@@ -3,9 +3,18 @@
 #include <XInput.h>
 #include "Singleton.h"
 #include "Command.h"
+#include <map>
 
 namespace dae
 {
+	enum GamepadIndex : DWORD
+	{
+		PlayerOne = 0,
+		PlayerTwo = 1,
+		PlayerThree = 2,
+		PlayerFour = 3
+	};
+
 	enum class ControllerButton
 	{
 		ButtonA = XINPUT_GAMEPAD_A,
@@ -18,28 +27,91 @@ namespace dae
 		DownArrow = XINPUT_GAMEPAD_DPAD_DOWN
 	};
 
+	enum InputTriggerState
+	{
+		Pressed,
+		Released,
+		Down
+	};
+
+	struct Action
+	{
+		Action() :
+		ActionID(-1),
+		Command(new IdleCommand{}),
+		//TriggerState(Pressed),
+		KeyboardCode(-1),
+		MouseButtonCode(-1),
+		GamepadButtonCode(0),
+		PlayerIndex(PlayerOne),
+		IsTriggered(false) {}
+
+	Action(int actionID, Command* command,/*InputTriggerState triggerState = Pressed,*/ int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne) :
+		ActionID(actionID),
+		//TriggerState(triggerState),
+		Command(command),
+		KeyboardCode(keyboardCode),
+		MouseButtonCode(mouseButtonCode),
+		GamepadButtonCode(gamepadButtonCode),
+		PlayerIndex(playerIndex),
+		IsTriggered(false) {}
+
+	int ActionID;
+	Command* Command;
+	//InputTriggerState TriggerState;
+	int KeyboardCode; //VK_... (Range 0x07 <> 0xFE)
+	int MouseButtonCode; //VK_... (Range 0x00 <> 0x06)
+	WORD GamepadButtonCode; //XINPUT_GAMEPAD_...
+	GamepadIndex PlayerIndex;
+	
+	bool IsTriggered;
+	};
+
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+		~InputManager();
 		bool ProcessInput();
-		std::shared_ptr<dae::Command> handleInput();
+		dae::Command* handleInput(dae::GamepadIndex playerIndex = dae::PlayerOne);
+		void Update();
+		void Initialize();
 		void SetIsDigging(bool isDigging);
-		void SetCommand(ControllerButton button, std::shared_ptr<dae::Command> command)
+		bool AddAction(Action action)
 		{
-			m_Commands.push_back(std::make_pair(button,command));
+			auto it = m_InputActions.find(action.ActionID);
+			if (it != m_InputActions.end()) return false;
+
+			m_InputActions[action.ActionID] = action;
+
+			return true;
 		};
 
-		void ResetCommands() {
-			m_Commands.clear();
+		bool IsActionTriggered(int actionID)
+		{
+			return m_InputActions[actionID].IsTriggered;
 		}
+
+		void ResetActions() {
+			m_InputActions.clear();
+		}
+		void RefreshControllerConnections();
+		bool IsGamepadButtonDown(WORD button, GamepadIndex playerIndex);
+		bool IsKeyBoardDown(int key, bool previousFrame = false);
 	private:
+		
+		//functions
+		void UpdateControllers();
+		void UpdateKeyboardStates();
 		//member var
-		XINPUT_STATE m_InputState{};
-		XINPUT_GAMEPAD m_Controller{};
+		static BYTE *m_pCurrKeyboardState, *m_pOldKeyboardState, *m_pKeyboardState0, *m_pKeyboardState1;
+		static bool m_KeyboardState0Active;
+		static XINPUT_STATE m_GamePadInputState[XUSER_MAX_COUNT];
+		static XINPUT_GAMEPAD m_Controller[XUSER_MAX_COUNT];
 		bool m_IsDigging{};
-		Direction m_LastDirection = Direction::right;
-		bool IsPressed(ControllerButton button) const;
-		std::vector<std::pair<ControllerButton, std::shared_ptr<dae::Command>>> m_Commands;
+		bool m_IsInit = false;
+		Direction m_LastDirection[XUSER_MAX_COUNT];
+		std::map<int, Action> m_InputActions;
+		static bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 	};
 
 }

@@ -6,8 +6,6 @@ unsigned int dae::Scene::idCounter = 0;
 
 dae::Scene::Scene(const std::string& name) : m_Name(name) {}
 
-dae::Scene::~Scene() = default;
-
 void dae::Scene::Add(const std::shared_ptr<SceneObject>& object)
 {
 	m_Objects.push_back(object);
@@ -29,8 +27,14 @@ void dae::Scene::Render() const
 	}
 }
 
-void dae::Scene::SetPlayerPosition(Point2f position)
+void dae::Scene::SetPlayerPosition(Point2f position, int index)
 {
-	m_PlayerPosition = position;
+	if (int(m_PlayerPositions.size()) < index)
+	{
+		m_PlayerPositions[index] = position;
+	}
+	else
+	{
+		m_PlayerPositions.push_back(Point2f(position));
+	}
 }
-

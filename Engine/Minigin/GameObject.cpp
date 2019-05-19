@@ -13,10 +13,6 @@ dae::GameObject::GameObject()
 
 dae::GameObject::~GameObject()
 {
-	for (BaseComponent* pComp : m_pComponents)
-	{
-		delete pComp;
-	}
 };
 
 void dae::GameObject::Update(float deltaTime)
