@@ -3,330 +3,98 @@
 #include "SpriteComponent.h"
 #include "Structs.h"
 #include "ButtonManager.h"
+#include "CharacterComponent.h"
 
 namespace dae
 {
-	enum class Direction
-	{
-		left,
-		right,
-		up,
-		down
-	};
 	class Command
 	{
 	public:
-		Command(Direction direction = Direction::right)
-			: m_Direction{ direction }
-			, m_XLimits{ 0,624 }
-			, m_YLimits{ 48,768 }
-		{}
-		virtual dae::State GetPlayerState() { return dae::State::Idle; }
-		virtual bool GetIsButton() { return false; }
-		virtual dae::Direction getPlayerDirection() { return m_Direction; }
-		virtual void SetPreviousDirection(Direction direction) { m_PreviousDirection = direction; }
-		virtual bool GetUsePrevious() { return m_UsePreviousDirection; }
-		virtual ~Command() {};
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
-		{
-			UNREFERENCED_PARAMETER(transform);
-			UNREFERENCED_PARAMETER(elapsedTime);
-		}
-		virtual void render(SpriteComponent* sprite, bool usePrevious)
-		{
-			UNREFERENCED_PARAMETER(sprite);
-			UNREFERENCED_PARAMETER(usePrevious);
-		}
-	protected:
-		Direction m_Direction;
-		Direction m_PreviousDirection;
-		bool m_UsePreviousDirection = false;
-		Point2f m_XLimits, m_YLimits;
-		void Move(float speed, float elapsedTime, TransformComponent* transform)
-		{
-			auto pos = transform->GetPosition();
-			auto newPos = speed * elapsedTime;
-			if (m_Direction == Direction::right)
-			{
-				if (pos.x + newPos < m_XLimits.y
-					&& int(pos.y) % 48 == 0) {
-					m_UsePreviousDirection = false;
-					transform->SetPosition(pos.x + newPos, pos.y);
-				}
-				else if (pos.x + newPos >= m_XLimits.y)
-					transform->SetPosition(m_XLimits.y, pos.y);
-				else if (int(pos.y) % 48 != 0)
-				{
-					m_UsePreviousDirection = true;
-					if (int(pos.y) % 48 < 1)
-					{
-						transform->SetPosition(pos.x, int(pos.y / 48.0f)*48.0f);
-					}
-					else
-					{
-						if (m_PreviousDirection == Direction::up)
-							transform->SetPosition(pos.x, pos.y - newPos);
-						else if (m_PreviousDirection == Direction::down)
-							transform->SetPosition(pos.x, pos.y + newPos);
-					}
-				}
-			}
-			else if (m_Direction == Direction::left)
-			{
-				if (pos.x + newPos > m_XLimits.x
-					&& int(pos.y) % 48 == 0) {
-					transform->SetPosition(pos.x - newPos, pos.y);
-					m_UsePreviousDirection = false;
-				}
-				else if (pos.x + newPos < m_XLimits.x)
-					transform->SetPosition(m_XLimits.x, pos.y);
-				else if (int(pos.y) % 48 != 0)
-				{
-					m_UsePreviousDirection = true;
-					if (int(pos.y) % 48 < 1)
-					{
-						transform->SetPosition(pos.x, int(pos.y / 48.0f)*48.0f);
-					}
-					else
-					{
-						if (m_PreviousDirection == Direction::up)
-							transform->SetPosition(pos.x, pos.y - newPos);
-						else if (m_PreviousDirection == Direction::down)
-							transform->SetPosition(pos.x, pos.y + newPos);
-					}
-				}
+		Command(){}
+		virtual void execute(GameObject&) = 0;
+	};
 
-			}
-			else if (m_Direction == Direction::up)
-			{
-				if (pos.y - newPos > m_YLimits.x
-					&& int(pos.x) % 48 == 0) {
-					transform->SetPosition(pos.x, pos.y - newPos);
-					m_UsePreviousDirection = false;
-				}
-				else if (pos.y + speed * elapsedTime < m_YLimits.x)
-					transform->SetPosition(pos.x, m_YLimits.x);
-				else if (int(pos.x) % 48 != 0)
-				{
-					m_UsePreviousDirection = true;
-					if (int(pos.x) % 48 < 1)
-					{
-						transform->SetPosition(int(pos.x / 48.0f)*48.0f, pos.y);
-					}
-					else
-					{
-						if (m_PreviousDirection == Direction::left)
-						{
-							transform->SetPosition(pos.x - newPos, pos.y);
-						}
-						else if (m_PreviousDirection == Direction::right)
-						{
-							transform->SetPosition(pos.x + newPos, pos.y);
-						}
-					}
-				}
-			}
-			else if (m_Direction == Direction::down)
-			{
-				if (pos.y + newPos < m_YLimits.y
-					&& int(pos.x) % 48 == 0) {
-					m_UsePreviousDirection = false;
-					transform->SetPosition(pos.x, pos.y + newPos);
-				}
-				else if (pos.y + newPos >= m_YLimits.y)
-					transform->SetPosition(pos.x, m_YLimits.y);
-				else if (int(pos.x) % 48 != 0)
-				{
-					m_UsePreviousDirection = true;
-					if (int(pos.x) % 48 < 1)
-					{
-						transform->SetPosition(int(pos.x / 48.0f)*48.0f, pos.y);
-					}
-					else
-					{
-						if (m_PreviousDirection == Direction::left)
-						{
-							transform->SetPosition(pos.x - newPos, pos.y);
-						}
-						else if (m_PreviousDirection == Direction::right)
-						{
-							transform->SetPosition(pos.x + newPos, pos.y);
-						}
-					}
-				}
-			}
+	class NullCommand : public Command
+	{
+	public:
+		virtual void execute(GameObject&) override {}
+	};
+
+	class LeftCommand : public Command
+	{
+	public:
+		LeftCommand() {}
+		virtual void execute(GameObject& obj) override {
+			if (obj.HasComponent<CharacterComponent>())
+				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::left);
 		}
 	};
 
-	class WalkCommand : public Command
+	class RightCommand : public Command
 	{
-	private:
-		float m_MovementSpeed = 50.0f;
 	public:
-
-		void Walk()
-		{
-			std::cout << "Walk" << std::endl;
-
-		}
-		WalkCommand(Direction direction) : Command{ direction } {}
-		virtual bool GetIsButton() override { return false; }
-		virtual dae::State GetPlayerState() override { return dae::State::Walking; }
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) {
-			Walk();
-			Move(m_MovementSpeed, elapsedTime, transform);
-		}
-		virtual void render(SpriteComponent* sprite, bool usePrevious)
-		{
-			sprite->SetColumn(2);
-			if (m_Direction == Direction::right && usePrevious == false
-				|| m_PreviousDirection == Direction::right && usePrevious == true)
-			{
-				sprite->SetRow(9);
-			}
-			else if (m_Direction == Direction::left && usePrevious == false
-				|| m_PreviousDirection == Direction::left && usePrevious == true)
-			{
-				sprite->SetRow(12);
-			}
-			else if (m_Direction == Direction::up && usePrevious == false
-				|| m_PreviousDirection == Direction::up && usePrevious == true)
-			{
-				sprite->SetRow(0);
-			}
-			else if (m_Direction == Direction::down && usePrevious == false
-				|| m_PreviousDirection == Direction::down && usePrevious == true)
-			{
-				sprite->SetRow(18);
-			}
+		RightCommand() {}
+		virtual void execute(GameObject& obj) override {
+			if (obj.HasComponent<CharacterComponent>())
+				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::right);
 		}
 	};
 
-	class DigCommand : public Command
+	class DownCommand : public Command
 	{
-	private:
-		float m_DigSpeed = 30.0f;
 	public:
-		DigCommand(Direction direction) : Command{ direction } {}
-		void Dig() {
-			std::cout << "Dig" << std::endl;
-		};
-		virtual dae::State GetPlayerState() override { return dae::State::Digging; }
-		virtual bool GetIsButton() override { return false; }
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) {
-			Dig();
-			Move(m_DigSpeed, elapsedTime, transform);
+		DownCommand(){}
+		virtual void execute(GameObject& obj) override {
+			if (obj.HasComponent<CharacterComponent>())
+				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::down);
+			else if (obj.HasComponent<ButtonComponent>())
+				ButtonManager::GetInstance().SetNextButtonActive();
+			std::cout << "DownCommand" << std::endl;
 		}
-		virtual void render(SpriteComponent* sprite, bool usePrevious)
-		{
-			sprite->SetColumn(2);
-			if (m_Direction == Direction::right && usePrevious == false
-				|| m_PreviousDirection == Direction::right && usePrevious == true)
-			{
-				sprite->SetRow(8);
-			}
-			else if (m_Direction == Direction::left && usePrevious == false
-				|| m_PreviousDirection == Direction::left && usePrevious == true)
-			{
-				sprite->SetRow(11);
-			}
-			else if (m_Direction == Direction::up && usePrevious == false
-				|| m_PreviousDirection == Direction::up && usePrevious == true)
-			{
-				sprite->SetRow(1);
-			}
-			else if (m_Direction == Direction::down && usePrevious == false
-				|| m_PreviousDirection == Direction::down && usePrevious == true)
-			{
-				sprite->SetRow(17);
-			}
+	};
+
+	class UpCommand : public Command
+	{
+	public:
+		UpCommand() {}
+		virtual void execute(GameObject& obj) override {
+			if (obj.HasComponent<CharacterComponent>())
+				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::up);
+			else if (obj.HasComponent<ButtonComponent>())
+				ButtonManager::GetInstance().SetPreviousButtonActive();
+			std::cout << "UpCommand" << std::endl;
 		}
 	};
 
 	class PumpCommand : public Command
 	{
 	public:
-		PumpCommand(Direction direction = Direction::right) :Command{ direction } {}
-		void Pump() {
-			std::cout << "Pump" << std::endl;
-		};
-		virtual dae::State GetPlayerState() override { return dae::State::Pumping; }
-		virtual bool GetIsButton() override { return false; }
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f) {
-			Pump();
-			UNREFERENCED_PARAMETER(elapsedTime);
-			UNREFERENCED_PARAMETER(transform);
-		}
-		virtual void render(SpriteComponent* sprite, bool usePrevious)
-		{
-			UNREFERENCED_PARAMETER(usePrevious);
-			switch (m_Direction)
-			{
-			case Direction::right:
-				sprite->SetRow(7);
-				break;
-			case Direction::left:
-				sprite->SetRow(10);
-				break;
-			case Direction::up:
-				sprite->SetRow(3);
-				break;
-			case Direction::down:
-				sprite->SetRow(16);
-				break;
-			}
+		PumpCommand() {}
+
+		virtual void execute(GameObject& obj) override{
+			if (obj.HasComponent<CharacterComponent>())
+				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::none);
 		}
 	};
 
 	class IdleCommand : public Command
 	{
 	public:
-		IdleCommand(Direction direction = Direction::right) : Command{ direction } {}
-		virtual bool GetIsButton() override { return false; }
-		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
-		virtual  void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
-		{
-			UNREFERENCED_PARAMETER(elapsedTime);
-			UNREFERENCED_PARAMETER(transform);
+		IdleCommand() {}
+		virtual  void execute(GameObject& obj) override {
+			if (obj.HasComponent<CharacterComponent>())
+				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::none);
 		}
-		virtual void render(SpriteComponent* sprite, bool usePrevious)
-		{
-			UNREFERENCED_PARAMETER(usePrevious);
-			switch (m_Direction)
-			{
-			case Direction::right:
-				sprite->SetRow(19);
-				break;
-			case Direction::left:
-				sprite->SetRow(20);
-				break;
-			case Direction::up:
-				sprite->SetRow(21);
-				break;
-			case Direction::down:
-				sprite->SetRow(22);
-				break;
-			}
-		}
-
 	};
 
 	class ButtonPressedCommand : public Command
 	{
 	public:
-		ButtonPressedCommand() : Command{} {}
-		virtual bool GetIsButton() override { return true; }
-		virtual dae::State GetPlayerState() override { return dae::State::Idle; }
-		virtual void execute(TransformComponent* transform = nullptr, float elapsedTime = 0.0f)
-		{
-			UNREFERENCED_PARAMETER(elapsedTime);
-			UNREFERENCED_PARAMETER(transform);
-			ButtonManager::GetInstance().GetActiveButton().SetSceneLoaded(true);
-		}
-		virtual void  render(SpriteComponent* sprite, bool usePrevious)
-		{
-			UNREFERENCED_PARAMETER(usePrevious);
-			UNREFERENCED_PARAMETER(sprite);
+		ButtonPressedCommand() {}
+		virtual void execute(GameObject& obj) override {
+			if (obj.HasComponent<ButtonComponent>())
+				ButtonManager::GetInstance().GetActiveButton().SetSceneLoaded(true);
+			std::cout << "ButtonPressedCommand" << std::endl;
 		}
 	};
 }

@@ -8,12 +8,12 @@
 
 
 dae::LevelComponent::LevelComponent()
-	:m_PlayerPositions{}
+	:m_PlayerPosition{}
 {
 	for (int i{}; i < 672; i += 48)
 	{
 		for (int j{}; j < 864; j += 48)
-		{		
+		{
 			if(j < 96)
 				m_pTiles.push_back(new Tile{ new TextureComponent{ "Ground.png" }, Point2f{ float(i),float(j)}, TileName::Sky});
 			else if (j < 288)
@@ -38,71 +38,85 @@ dae::LevelComponent::LevelComponent()
 
 void dae::LevelComponent::Update(float deltaTime)
 {
-	m_PlayerPositions = SceneManager::GetInstance().GetActiveScene()->GetPlayerPositions();
-
-	for (unsigned int j{}; j < m_PlayerPositions.size(); j++)
+	m_PlayerPosition = SceneManager::GetInstance().GetCharacter(0)->GetPosition();
+	Point2f calPos{ m_PlayerPosition.x,m_PlayerPosition.y };
+	auto playerDir = SceneManager::GetInstance().GetCharacter(0)->GetDirection();
+	if (playerDir == dae::Direction::right)
 	{
+		calPos.x += 40.0f;
+		calPos.y += 24.0f;
+	}
+	else if (playerDir == dae::Direction::left)
+	{
+		calPos.y += 24.0f;
+	}
+	else if (playerDir == dae::Direction::down)
+	{
+		calPos.y += 40.0f;
+		calPos.x += 24.0f;
+	}
+	else if (playerDir == dae::Direction::up)
+	{
+		calPos.x += 24.0f;
+	}
 		for (unsigned int i{}; i < m_pTiles.size() - 1; i++)
 		{
-			if (m_PlayerPositions[j].x >= m_pTiles[i]->Position.x && m_PlayerPositions[j].x < m_pTiles[i]->Position.x + 48
-				&& m_PlayerPositions[j].y <= m_pTiles[i]->Position.y && m_PlayerPositions[j].y > m_pTiles[i]->Position.y - 48)
+			if (calPos.x >= m_pTiles[i]->Position.x && calPos.x < m_pTiles[i]->Position.x + 48
+				&& calPos.y >= m_pTiles[i]->Position.y && calPos.y < m_pTiles[i]->Position.y + 48)
 			{
 				if (m_pTiles[i]->tileName != TileName::Black && m_pTiles[i]->tileName != TileName::Sky)
 				{
 					m_pTiles[i]->tileName = TileName::Black;
 				}
 
-				switch (SceneManager::GetInstance().GetActiveScene()->GetPlayerDirection())
+				switch (SceneManager::GetInstance().GetCharacter(0)->GetDirection())
 				{
 				case dae::Direction::right:
 					if (i + 18 > int(m_pTiles.size()))
 					{
 						if (m_pTiles[i]->tileName != TileName::Black && m_pTiles[i]->tileName != TileName::Sky)
-							InputManager::GetInstance().SetIsDigging(true);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(true);
 						else
-							InputManager::GetInstance().SetIsDigging(false);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(false);
 					}
 					else
 					{
 						if (m_pTiles[i + 18]->tileName != TileName::Black && m_pTiles[i]->tileName != TileName::Sky)
-
-							InputManager::GetInstance().SetIsDigging(true);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(true);
 						else
-							InputManager::GetInstance().SetIsDigging(false);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(false);
 					}
 					break;
 				case dae::Direction::left:
 					if (i - 18 < 0)
 					{
 						if (m_pTiles[i]->tileName != TileName::Black && m_pTiles[i]->tileName != TileName::Sky)
-							InputManager::GetInstance().SetIsDigging(true);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(true);
 						else
-							InputManager::GetInstance().SetIsDigging(false);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(false);
 					}
 					else
 					{
 						if (m_pTiles[i - 18]->tileName != TileName::Black && m_pTiles[i - 18]->tileName != TileName::Sky)
-
-							InputManager::GetInstance().SetIsDigging(true);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(true);
 						else
-							InputManager::GetInstance().SetIsDigging(false);
+							SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(false);
 					}
 					break;
 				case dae::Direction::up:
 					if (m_pTiles[i - 1]->tileName != TileName::Black && m_pTiles[i - 1]->tileName != TileName::Sky)
-						InputManager::GetInstance().SetIsDigging(true);
+						SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(true);
 					else
-						InputManager::GetInstance().SetIsDigging(false);
+						SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(false);
 					break;
 				case dae::Direction::down:
 					if (m_pTiles[i + 1]->tileName != TileName::Black)
-						InputManager::GetInstance().SetIsDigging(true);
+						SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(true);
 					else
-						InputManager::GetInstance().SetIsDigging(false);
+						SceneManager::GetInstance().GetCharacter(0)->SetIsDigging(false);
 					break;
 				}
 			}
-		}
 	}
 
 	for (auto stone : m_pStones)
@@ -142,12 +156,11 @@ void dae::LevelComponent::Render()
 
 	}
 
+
 	for (auto stone : m_pStones)
 	{
 		stone->Render();
 	}
-
-	
 }
 
 

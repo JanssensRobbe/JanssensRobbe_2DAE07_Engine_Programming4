@@ -18,12 +18,6 @@ dae::StartMenuScene::StartMenuScene(const std::string& name)
 
 void dae::StartMenuScene::Update(float deltaTime)
 {
-	auto command = InputManager::GetInstance().handleInput();
-	ButtonManager::GetInstance().Update(deltaTime);
-	if (command->GetIsButton())
-	{
-		command->execute();
-	}
 	for (auto gameObject : m_Objects)
 	{
 		gameObject->Update(deltaTime);
@@ -33,11 +27,11 @@ void dae::StartMenuScene::Update(float deltaTime)
 void dae::StartMenuScene::LoadScene()
 {
 	InputManager::GetInstance().ResetActions();
-	auto ButtonPressedAction = Action{ 0,new ButtonPressedCommand{},'K',-1,WORD(dae::ControllerButton::ButtonA),dae::PlayerOne };
+	auto ButtonPressedAction = Action{ 0,std::make_shared<ButtonPressedCommand>(),'K',-1,WORD(dae::ControllerButton::ButtonA),dae::PlayerOne };
 	InputManager::GetInstance().AddAction(ButtonPressedAction);
-	auto ButtonDownAction = Action{ 1, new ButtonDownCommand{},'S',-1,WORD(dae::ControllerButton::DownArrow),dae::PlayerOne };
+	auto ButtonDownAction = Action{ 1,std::make_shared<DownCommand>(),'S',-1,WORD(dae::ControllerButton::DownArrow),dae::PlayerOne };
 	InputManager::GetInstance().AddAction(ButtonDownAction);
-	auto ButtonUpAction = Action{ 2, new ButtonUpCommand{},'W',-1,WORD(dae::ControllerButton::UpArrow), dae::PlayerOne };
+	auto ButtonUpAction = Action{ 2, std::make_shared<UpCommand>(),'W',-1,WORD(dae::ControllerButton::UpArrow), dae::PlayerOne };
 	InputManager::GetInstance().AddAction(ButtonUpAction);
 
 	auto to = std::make_shared<GameObject>();

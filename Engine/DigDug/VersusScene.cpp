@@ -15,18 +15,16 @@ dae::VersusScene::VersusScene(const std::string& name)
 void dae::VersusScene::LoadScene()
 {
 	InputManager::GetInstance().ResetActions();
-	auto PumpAction = Action(0, new PumpCommand{}, 'X', -1, WORD(dae::ControllerButton::ButtonA), dae::PlayerOne);
+	auto PumpAction = Action(0, std::make_shared<PumpCommand>(), 'X', -1, WORD(dae::ControllerButton::ButtonA), dae::PlayerOne);
 	InputManager::GetInstance().AddAction(PumpAction);
-	auto WalkDownAction = Action(1, new WalkCommand{ dae::Direction::down }, 'S', -1, WORD(dae::ControllerButton::DownArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkDownAction);
-	auto WalkUpAction = Action(2, new WalkCommand{ dae::Direction::up }, 'W', -1, WORD(dae::ControllerButton::UpArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkUpAction);
-	auto WalkLeftAction = Action(3, new WalkCommand{ dae::Direction::left }, 'A', -1, WORD(dae::ControllerButton::LeftArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkLeftAction);
-	auto WalkRightAction = Action(4, new WalkCommand{ dae::Direction::right }, 'D', -1, WORD(dae::ControllerButton::RightArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkRightAction);
-
-
+	auto downCommand = Action(1, std::make_shared<DownCommand>(), 'S', -1, WORD(dae::ControllerButton::DownArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(downCommand);
+	auto upCommand = Action(2, std::make_shared<UpCommand>(), 'W', -1, WORD(dae::ControllerButton::UpArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(upCommand);
+	auto leftCommand = Action(3, std::make_shared<LeftCommand>(), 'A', -1, WORD(dae::ControllerButton::LeftArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(leftCommand);
+	auto rightCommand = Action(4, std::make_shared<RightCommand>(), 'D', -1, WORD(dae::ControllerButton::RightArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(rightCommand);
 
 
 	auto to = std::make_shared<GameObject>();
@@ -40,7 +38,6 @@ void dae::VersusScene::LoadScene()
 	to->AddComponent(TextComp2);
 	to->SetPosition(630, 0);
 	Add(to);
-
 
 	to = std::make_shared<GameObject>();
 	SpriteComponent* SpriteComp5 = new SpriteComponent{ "DigDug.png",2,1,0.2f,16.0f,8,3.0f };

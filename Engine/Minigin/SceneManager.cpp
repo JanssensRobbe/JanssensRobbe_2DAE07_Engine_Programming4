@@ -1,5 +1,6 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
+#include "CharacterComponent.h"
 #include "./../DigDug/StartMenuScene.h"
 #include "./../DigDug/OnePlayerScene.h"
 #include "./../DigDug/TwoPlayerScene.h"

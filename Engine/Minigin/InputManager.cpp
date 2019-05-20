@@ -14,11 +14,6 @@ bool dae::InputManager::m_ConnectedGamepads[XUSER_MAX_COUNT];
 
 dae::InputManager::~InputManager()
 {
-
-	for (auto actions : m_InputActions)
-	{
-		delete actions.second.Command;
-	}
 	if (m_pKeyboardState0 != nullptr)
 	{
 		delete[] m_pKeyboardState0;
@@ -34,10 +29,6 @@ void dae::InputManager::Initialize()
 {
 	//Static Initialize Check
 	//Pre-Object Initializations should happen before this check!
-	for (int i{}; i < XUSER_MAX_COUNT; i++)
-	{
-		m_LastDirection[i] = dae::Direction::right;
-	}
 	if (m_IsInit)
 		return;
 
@@ -75,18 +66,12 @@ bool dae::InputManager::ProcessInput()
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-
-		}
 	}
 
 	return true;
 }
 
-dae::Command* dae::InputManager::handleInput(dae::GamepadIndex playerIndex)
+std::shared_ptr<dae::Command> dae::InputManager::handleInput(dae::GamepadIndex playerIndex)
 {
 	for (auto it = m_InputActions.begin(); it != m_InputActions.end(); ++it)
 	{
@@ -94,16 +79,11 @@ dae::Command* dae::InputManager::handleInput(dae::GamepadIndex playerIndex)
 		{
 			if (it->second.IsTriggered)
 			{
-				if (it->second.Command->GetPlayerState() == dae::State::Pumping)
-					return new PumpCommand{ m_LastDirection[playerIndex]};
-				m_LastDirection[playerIndex] = it->second.Command->getPlayerDirection();
-				if (m_IsDigging && it->second.Command->GetPlayerState() == dae::State::Walking)
-					return new DigCommand{ it->second.Command->getPlayerDirection() };
 				return it->second.Command;
 			}
 		}
 	}
-	return new IdleCommand{ m_LastDirection[playerIndex] };
+	return std::make_shared<IdleCommand>();
 }
 
 void dae::InputManager::Update()
@@ -181,9 +161,4 @@ void dae::InputManager::UpdateKeyboardStates()
 
 	m_KeyboardState0Active = !m_KeyboardState0Active;
 
-}
-
-void dae::InputManager::SetIsDigging(bool isDigging)
-{
-	m_IsDigging = isDigging;
 }

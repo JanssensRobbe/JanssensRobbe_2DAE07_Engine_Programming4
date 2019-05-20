@@ -14,6 +14,7 @@
 #include "Scene.h"
 #include "CharacterComponent.h"
 #include "StartMenuScene.h"
+#include "ButtonManager.h"
 #include "Level.h"
 
 void dae::Minigin::Initialize()
@@ -70,6 +71,7 @@ void dae::Minigin::Run()
 		bool doContinue = true;
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
+		auto& buttonManager = ButtonManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		auto lastTime = std::chrono::high_resolution_clock::now();
 
@@ -82,6 +84,7 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 			input.Update();
 			sceneManager.Update(deltaTime);
+			buttonManager.Update(deltaTime);
 			renderer.Render();
 
 			lastTime = currentTime;

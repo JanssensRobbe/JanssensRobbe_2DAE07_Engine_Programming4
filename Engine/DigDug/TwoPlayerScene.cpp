@@ -18,26 +18,26 @@ dae::TwoPlayerScene::TwoPlayerScene(const std::string& name)
 void dae::TwoPlayerScene::LoadScene()
 {
 	InputManager::GetInstance().ResetActions();
-	auto PumpAction = Action(0, new PumpCommand{}, 'X', -1, WORD(dae::ControllerButton::ButtonA), dae::PlayerOne);
+	auto PumpAction = Action(0,std::make_shared<PumpCommand>(), 'X', -1, WORD(dae::ControllerButton::ButtonA), dae::PlayerOne);
 	InputManager::GetInstance().AddAction(PumpAction);
-	auto WalkDownAction = Action(1, new WalkCommand{ dae::Direction::down }, 'S', -1, WORD(dae::ControllerButton::DownArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkDownAction);
-	auto WalkUpAction = Action(2, new WalkCommand{ dae::Direction::up }, 'W', -1, WORD(dae::ControllerButton::UpArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkUpAction);
-	auto WalkLeftAction = Action(3, new WalkCommand{ dae::Direction::left }, 'A', -1, WORD(dae::ControllerButton::LeftArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkLeftAction);
-	auto WalkRightAction = Action(4, new WalkCommand{ dae::Direction::right }, 'D', -1, WORD(dae::ControllerButton::RightArrow), dae::PlayerOne);
-	InputManager::GetInstance().AddAction(WalkRightAction);
-	auto PumpAction2 = Action(5, new PumpCommand{}, 'M', -1, WORD(dae::ControllerButton::ButtonA), dae::PlayerTwo);
+	auto downCommand = Action(1, std::make_shared<DownCommand>(), 'S', -1, WORD(dae::ControllerButton::DownArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(downCommand);
+	auto upCommand = Action(2, std::make_shared<UpCommand>(), 'W', -1, WORD(dae::ControllerButton::UpArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(upCommand);
+	auto leftCommand = Action(3, std::make_shared<LeftCommand>(), 'A', -1, WORD(dae::ControllerButton::LeftArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(leftCommand);
+	auto rightCommand = Action(4, std::make_shared<RightCommand>(), 'D', -1, WORD(dae::ControllerButton::RightArrow), dae::PlayerOne);
+	InputManager::GetInstance().AddAction(rightCommand);
+	auto PumpAction2 = Action(5, std::make_shared<PumpCommand>(), 'M', -1, WORD(dae::ControllerButton::ButtonA), dae::PlayerTwo);
 	InputManager::GetInstance().AddAction(PumpAction);
-	auto WalkDownAction2 = Action(6, new WalkCommand{ dae::Direction::down }, 'K', -1, WORD(dae::ControllerButton::DownArrow), dae::PlayerTwo);
-	InputManager::GetInstance().AddAction(WalkDownAction);
-	auto WalkUpAction2 = Action(7, new WalkCommand{ dae::Direction::up }, 'I', -1, WORD(dae::ControllerButton::UpArrow), dae::PlayerTwo);
-	InputManager::GetInstance().AddAction(WalkUpAction);
-	auto WalkLeftAction2 = Action(8, new WalkCommand{ dae::Direction::left }, 'J', -1, WORD(dae::ControllerButton::LeftArrow), dae::PlayerTwo);
-	InputManager::GetInstance().AddAction(WalkLeftAction);
-	auto WalkRightAction2 = Action(9, new WalkCommand{ dae::Direction::right }, 'L', -1, WORD(dae::ControllerButton::RightArrow), dae::PlayerTwo);
-	InputManager::GetInstance().AddAction(WalkRightAction);
+	auto downCommand2 = Action(6, std::make_shared<DownCommand>(), 'K', -1, WORD(dae::ControllerButton::DownArrow), dae::PlayerTwo);
+	InputManager::GetInstance().AddAction(downCommand2);
+	auto upCommand2 = Action(7, std::make_shared<UpCommand>(), 'I', -1, WORD(dae::ControllerButton::UpArrow), dae::PlayerTwo);
+	InputManager::GetInstance().AddAction(upCommand2);
+	auto leftCommand2 = Action(8, std::make_shared<LeftCommand>(), 'J', -1, WORD(dae::ControllerButton::LeftArrow), dae::PlayerTwo);
+	InputManager::GetInstance().AddAction(leftCommand2);
+	auto rightCommand2 = Action(9, std::make_shared<RightCommand>(), 'L', -1, WORD(dae::ControllerButton::RightArrow), dae::PlayerTwo);
+	InputManager::GetInstance().AddAction(rightCommand2);
 
 	auto to = std::make_shared<GameObject>();
 	LevelComponent* LevelComp = new LevelComponent();

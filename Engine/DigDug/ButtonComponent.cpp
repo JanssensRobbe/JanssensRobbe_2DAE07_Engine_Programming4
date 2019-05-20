@@ -20,7 +20,9 @@ dae::ButtonComponent::ButtonComponent(Rectf destRect, std::string texture)
 
 void dae::ButtonComponent::Update(float deltaTime)
 {
-
+	auto command = InputManager::GetInstance().handleInput();
+	if (command != std::shared_ptr<NullCommand>())
+		command->execute((*GetGameObject()));
 	UNREFERENCED_PARAMETER(deltaTime);
 }
 

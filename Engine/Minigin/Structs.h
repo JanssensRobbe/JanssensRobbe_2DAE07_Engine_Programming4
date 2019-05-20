@@ -55,4 +55,13 @@ namespace dae
 		Point2f Position;
 		TileName tileName;
 	};
+
+	enum class Direction
+	{
+		right,
+		down,
+		left,
+		up,
+		none
+	};
 }
