@@ -29,7 +29,7 @@ namespace dae
 
 		std::vector<StoneComponent*> m_pStones;
 		std::vector<Tile*> m_pTiles;
-		std::vector<Point2f> m_PlayerPositions;
+		Point2f m_PlayerPosition;
 	};
 }
 

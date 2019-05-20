@@ -18,8 +18,6 @@ namespace dae
 		virtual void LoadScene() = 0;
 		void SetPlayerPosition(Point2f position, int index);
 		std::vector<Point2f> GetPlayerPositions() { return m_PlayerPositions; }
-		void SetPlayerDirection(dae::Direction direction) { m_PlayerDirection = direction; }
-		dae::Direction GetPlayerDirection() { return m_PlayerDirection; }
 		Scene(const std::string& name);
 		virtual ~Scene() = default;
 		Scene(const Scene& other) = delete;
@@ -32,7 +30,6 @@ namespace dae
 		std::string m_Name{};
 		std::vector < std::shared_ptr<SceneObject>> m_Objects{};
 		std::vector<Point2f> m_PlayerPositions;
-		dae::Direction m_PlayerDirection;
 		static unsigned int idCounter;
 	};
 

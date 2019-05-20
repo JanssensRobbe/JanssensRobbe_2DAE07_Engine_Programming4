@@ -38,7 +38,7 @@ namespace dae
 	{
 		Action() :
 		ActionID(-1),
-		Command(new IdleCommand{}),
+		Command(std::make_shared<IdleCommand>()),
 		//TriggerState(Pressed),
 		KeyboardCode(-1),
 		MouseButtonCode(-1),
@@ -46,7 +46,7 @@ namespace dae
 		PlayerIndex(PlayerOne),
 		IsTriggered(false) {}
 
-	Action(int actionID, Command* command,/*InputTriggerState triggerState = Pressed,*/ int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne) :
+	Action(int actionID, std::shared_ptr<Command> command,/*InputTriggerState triggerState = Pressed,*/ int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne) :
 		ActionID(actionID),
 		//TriggerState(triggerState),
 		Command(command),
@@ -57,7 +57,7 @@ namespace dae
 		IsTriggered(false) {}
 
 	int ActionID;
-	Command* Command;
+	std::shared_ptr<Command> Command;
 	//InputTriggerState TriggerState;
 	int KeyboardCode; //VK_... (Range 0x07 <> 0xFE)
 	int MouseButtonCode; //VK_... (Range 0x00 <> 0x06)
@@ -72,10 +72,9 @@ namespace dae
 	public:
 		~InputManager();
 		bool ProcessInput();
-		dae::Command* handleInput(dae::GamepadIndex playerIndex = dae::PlayerOne);
+		std::shared_ptr<dae::Command> handleInput(dae::GamepadIndex playerIndex = dae::PlayerOne);
 		void Update();
 		void Initialize();
-		void SetIsDigging(bool isDigging);
 		bool AddAction(Action action)
 		{
 			auto it = m_InputActions.find(action.ActionID);
@@ -107,11 +106,8 @@ namespace dae
 		static bool m_KeyboardState0Active;
 		static XINPUT_STATE m_GamePadInputState[XUSER_MAX_COUNT];
 		static XINPUT_GAMEPAD m_Controller[XUSER_MAX_COUNT];
-		bool m_IsDigging{};
 		bool m_IsInit = false;
-		Direction m_LastDirection[XUSER_MAX_COUNT];
 		std::map<int, Action> m_InputActions;
 		static bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 	};
-
 }

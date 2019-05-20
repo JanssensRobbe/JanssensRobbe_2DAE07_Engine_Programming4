@@ -30,7 +30,26 @@ namespace dae
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+		//credits to Graphics Programming 2 
 #pragma region
+		template <class T>
+		bool HasComponent()
+		{
+			return GetComponent<T>() != nullptr;
+		}
+
+		template <class T>
+		T* GetComponent()
+		{
+			const type_info& ti = typeid(T);
+			for (auto* component : m_pComponents)
+			{
+				if (component && typeid(*component) == ti)
+					return static_cast<T*>(component);
+			}
+
+			return nullptr;
+		}
 
 		template <class T>
 		std::vector<T*> GetComponents()
@@ -46,10 +65,37 @@ namespace dae
 
 			return components;
 		}
+
+		template <class T>
+		T* GetChild()
+		{
+			const type_info& ti = typeid(T);
+			for (auto* child : m_pChildren)
+			{
+				if (child && typeid(*child) == ti)
+					return static_cast<T*>(child);
+			}
+			return nullptr;
+		}
+
+		template <class T>
+		std::vector<T*> GetChildren()
+		{
+			const type_info& ti = typeid(T);
+			std::vector<T*> children;
+
+			for (auto* child : m_pChildren)
+			{
+				if (child && typeid(*child) == ti)
+					children.push_back((T*)child);
+			}
+			return children;
+		}
 #pragma endregion Template Methods
 	private:
 		dae::TransformComponent* m_pTransform = nullptr;
 		std::vector<BaseComponent*> m_pComponents;
+		std::vector<BaseComponent*> m_pChildren;
 		std::shared_ptr<Texture2D> m_Texture;
 	};
 }
