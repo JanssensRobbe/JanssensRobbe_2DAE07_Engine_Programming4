@@ -10,8 +10,9 @@ namespace dae
 	{
 	public:
 		LevelComponent(std::string levelPath, int playerAmount = 1);
-		virtual ~LevelComponent()
+		~LevelComponent()
 		{
+			delete m_pStoneTexture;
 			for (auto tile : m_pTiles)
 			{
 				delete tile->Texture;
@@ -32,6 +33,7 @@ namespace dae
 		std::vector<Tile*> m_pTiles;
 		std::vector<Point2f> m_PlayerPositions;
 		std::string m_filePath;
+		TextureComponent* m_pStoneTexture;
 	};
 }
 

@@ -19,7 +19,6 @@ dae::StateMachine::StateMachine(std::vector<State*> states, State* StartState, i
 
 dae::StateMachine::~StateMachine()
 {
-	delete m_pState;
 	for (auto state: m_pStates)
 	{
 		delete state;

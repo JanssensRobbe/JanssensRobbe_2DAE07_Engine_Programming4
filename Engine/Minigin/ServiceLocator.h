@@ -13,7 +13,6 @@ namespace dae {
 	class ServiceLocator
 	{
 	public:
-
 		static void RegisterPlayer(int index,std::shared_ptr<GameObject>& service){m_pPlayers.insert({ index, service });}
 		static void RegisterAgent( int index,std::shared_ptr<GameObject>& service){m_pAgents.insert({ index,service });}
 		static void RegisterTile(int index, dae::Tile* tile){m_pTiles.insert({ index,tile});}

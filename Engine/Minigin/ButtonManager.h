@@ -7,13 +7,8 @@ namespace dae {
 	{
 	public:
 		ButtonManager();
-		~ButtonManager()
-		{
-			for (unsigned int i{}; i < m_Buttons.size(); i++)
-			{
-				delete m_Buttons[i];
-			}
-		}
+		~ButtonManager() = default;
+		
 
 		ButtonComponent& GetActiveButton() 
 		{

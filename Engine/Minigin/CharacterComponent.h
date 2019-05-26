@@ -21,7 +21,7 @@ namespace dae
 		SpriteComponent* GetSprite() { return m_pSprite; }
 		DWORD GetPlayerNumber() { return m_PlayerNumber; }
 		CharacterComponent(DWORD playerNumber, SpriteComponent& spriteComponent);
-		~CharacterComponent();
+		~CharacterComponent() = default;
 		CharacterComponent(const CharacterComponent& other) = delete;
 		CharacterComponent(CharacterComponent&& other) = delete;
 		CharacterComponent& operator=(const CharacterComponent& other) = delete;

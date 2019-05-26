@@ -11,6 +11,7 @@
 
 dae::LevelComponent::LevelComponent(std::string levelPath, int playerAmount)
 	:m_filePath{levelPath}
+	, m_pStoneTexture{ new TextureComponent{"Stone.png"} }
 {
 	for (int j{}; j < 864; j += 48)
 	{
@@ -47,7 +48,7 @@ dae::LevelComponent::LevelComponent(std::string levelPath, int playerAmount)
 	{
 		int row = rand() % 10 + 4;
 		int column = rand() % 14;
-		m_pStones.push_back(new StoneComponent{ new TextureComponent{"Stone.png"},column + row * 14 - 1});
+		m_pStones.push_back(new StoneComponent{ *m_pStoneTexture,column + row * 14 - 1});
 	}
 
 	for (int i{}; i < playerAmount; ++i)
@@ -150,8 +151,8 @@ void dae::LevelComponent::Update(float deltaTime)
 	{
 		if (m_pStones[i]->GetIsDead())
 		{
+			delete m_pStones[i];
 			m_pStones[i] = m_pStones[m_pStones.size() - 1];
-			m_pStones[m_pStones.size() - 1] = nullptr;
 			m_pStones.pop_back();
 		}
 	}

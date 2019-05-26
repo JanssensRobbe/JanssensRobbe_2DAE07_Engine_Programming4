@@ -16,7 +16,3 @@ dae::CharacterComponent::CharacterComponent(DWORD playerNumber, SpriteComponent&
 	, m_pSprite{&spriteComponent}
 {
 }
-dae::CharacterComponent::~CharacterComponent()
-{
-	delete m_pSprite;
-}

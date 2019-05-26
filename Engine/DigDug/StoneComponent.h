@@ -8,8 +8,8 @@ namespace dae
 	{
 	public:
 
-		StoneComponent(TextureComponent* texture, int index);
-		~StoneComponent();
+		StoneComponent(TextureComponent& texture, int index);
+		~StoneComponent() = default;
 		StoneComponent(const StoneComponent& other) = delete;
 		StoneComponent(StoneComponent&& other) noexcept = delete;
 		StoneComponent& operator=(const StoneComponent& other) = delete;

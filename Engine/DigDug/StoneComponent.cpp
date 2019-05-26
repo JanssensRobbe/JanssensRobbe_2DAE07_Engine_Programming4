@@ -4,9 +4,9 @@
 #include "../Minigin/SceneManager.h"
 #include "ServiceLocator.h"
 
-dae::StoneComponent::StoneComponent(TextureComponent* texture, int index)
+dae::StoneComponent::StoneComponent(TextureComponent& texture, int index)
 	:BaseComponent{}
-	,m_pTexture{texture}
+	,m_pTexture{&texture}
 	,m_Index{index}
 	,m_IsFalling{false}
 	, m_MovementSpeed{50.0f}
@@ -18,11 +18,6 @@ dae::StoneComponent::StoneComponent(TextureComponent* texture, int index)
 {
 	
 	m_Position = ServiceLocator::GetTile(m_Index)->Position;
-}
-
-dae::StoneComponent::~StoneComponent()
-{
-	delete m_pTexture;
 }
 
 void dae::StoneComponent::Update(float deltaTime)

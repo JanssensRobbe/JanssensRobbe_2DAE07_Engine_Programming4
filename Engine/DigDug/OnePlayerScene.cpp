@@ -78,6 +78,5 @@ void dae::OnePlayerScene::LoadScene()
 	to->AddComponent(agent2);
 	to->SetPosition(160, 432);
 	Add(to);
-	
 }
 

@@ -34,6 +34,11 @@ void dae::VersusScene::LoadScene()
 	to->SetPosition(0, 0);
 	Add(to);
 
+	to = std::make_shared<GameObject>();
+	CollisionComponent* CollisionComp = new CollisionComponent{};
+	to->AddComponent(CollisionComp);
+	ServiceLocator::RegisterCollisionComponent(to);
+
 	auto spawn = std::make_shared<SpawnComponent>();
 	to = std::make_shared<GameObject>();
 	Add(spawn->SpawnPlayer(to,"DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 0, Point2f{0.0f,820.0f},3, Point2f{ 336,432 }, dae::SceneType::GameOverMenu));
