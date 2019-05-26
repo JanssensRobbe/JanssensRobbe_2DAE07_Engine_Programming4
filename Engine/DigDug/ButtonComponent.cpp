@@ -13,6 +13,7 @@ dae::ButtonComponent::ButtonComponent(Rectf destRect, std::string texture)
 	:m_DestRect{destRect}
 	, m_pTexture{ new TextureComponent{texture} }
 	,m_ActiveButton{false}
+	, m_LoadScene{ false }
 	,m_SceneType{SceneType::None}
 {
 	m_pTexture->SetPosition(Point2f{ destRect.left,destRect.bottom });

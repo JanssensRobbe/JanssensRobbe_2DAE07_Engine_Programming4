@@ -29,16 +29,8 @@ struct Rectf
 
 namespace dae
 {
+
 	class TextureComponent;
-	enum class State
-	{
-		Walking,
-		Idle,
-		Pumping,
-		Digging
-
-	};
-
 	enum class TileName
 	{
 		Sky,
@@ -64,4 +56,22 @@ namespace dae
 		up,
 		none
 	};
-}
+
+	enum class ActionName
+	{
+		Action,
+		EntryAction,
+		ExitAction
+	};
+
+	struct Tag
+	{
+		std::string tag;
+	};
+
+	enum class EnemyType
+	{
+		Pooka,
+		Fygar
+	};
+};

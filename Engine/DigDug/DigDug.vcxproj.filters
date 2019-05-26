@@ -41,6 +41,27 @@
     <ClInclude Include="StoneComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="DigDugCharacterComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions.h">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Conditions.h">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="WinnerScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -69,6 +90,21 @@
     </ClCompile>
     <ClCompile Include="StoneComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugCharacterComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="WinnerScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

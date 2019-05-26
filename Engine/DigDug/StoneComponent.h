@@ -8,8 +8,8 @@ namespace dae
 	{
 	public:
 
-		StoneComponent(TextureComponent* texture, int index, std::vector<dae::Tile*>& tiles);
-		virtual ~StoneComponent();
+		StoneComponent(TextureComponent* texture, int index);
+		~StoneComponent();
 		StoneComponent(const StoneComponent& other) = delete;
 		StoneComponent(StoneComponent&& other) noexcept = delete;
 		StoneComponent& operator=(const StoneComponent& other) = delete;
@@ -18,13 +18,14 @@ namespace dae
 		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
 
+		bool GetIsDead() { return m_IsDead;}
+
 	private:
-		std::vector<dae::Tile*>& m_pTiles;
 		Point2f m_Position;
 		TextureComponent* m_pTexture;
-		bool m_IsFalling, m_MayDestroy;
-		int m_Index;
-		float m_MovementSpeed;
+		bool m_IsFalling, m_MayDestroy, m_IsRegistered, m_IsDead, m_StartTimer;
+		int m_Index, m_CollisionIndex;
+		float m_MovementSpeed, m_TimerBeforeFall;
 	};
 }
 

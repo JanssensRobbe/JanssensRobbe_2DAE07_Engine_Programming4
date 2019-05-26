@@ -9,7 +9,7 @@ namespace dae {
 	{
 	public:
 		ButtonComponent(Rectf destRect, std::string texture);
-		virtual ~ButtonComponent()
+		~ButtonComponent()
 		{
 			delete m_pTexture;
 		};
@@ -26,8 +26,8 @@ namespace dae {
 		ButtonComponent& operator=(ButtonComponent&& other) noexcept = delete;
 	private:
 		Rectf m_DestRect;
-		bool m_ActiveButton;
-		bool m_LoadScene;
+		bool m_ActiveButton = false;
+		bool m_LoadScene = false;
 		SceneType m_SceneType;
 		TextureComponent* m_pTexture;
 		std::shared_ptr<Scene> m_Scene;

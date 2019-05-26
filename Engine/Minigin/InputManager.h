@@ -34,9 +34,9 @@ namespace dae
 		Down
 	};
 
-	struct Action
+	struct InputAction
 	{
-		Action() :
+		InputAction() :
 		ActionID(-1),
 		Command(std::make_shared<IdleCommand>()),
 		//TriggerState(Pressed),
@@ -46,7 +46,7 @@ namespace dae
 		PlayerIndex(PlayerOne),
 		IsTriggered(false) {}
 
-	Action(int actionID, std::shared_ptr<Command> command,/*InputTriggerState triggerState = Pressed,*/ int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne) :
+		InputAction(int actionID, std::shared_ptr<Command> command,/*InputTriggerState triggerState = Pressed,*/ int keyboardCode = -1, int mouseButtonCode = -1, WORD gamepadButtonCode = 0, GamepadIndex playerIndex = GamepadIndex::PlayerOne) :
 		ActionID(actionID),
 		//TriggerState(triggerState),
 		Command(command),
@@ -75,15 +75,7 @@ namespace dae
 		std::shared_ptr<dae::Command> handleInput(dae::GamepadIndex playerIndex = dae::PlayerOne);
 		void Update();
 		void Initialize();
-		bool AddAction(Action action)
-		{
-			auto it = m_InputActions.find(action.ActionID);
-			if (it != m_InputActions.end()) return false;
-
-			m_InputActions[action.ActionID] = action;
-
-			return true;
-		};
+		bool AddAction(InputAction action);
 
 		bool IsActionTriggered(int actionID)
 		{
@@ -107,7 +99,7 @@ namespace dae
 		static XINPUT_STATE m_GamePadInputState[XUSER_MAX_COUNT];
 		static XINPUT_GAMEPAD m_Controller[XUSER_MAX_COUNT];
 		bool m_IsInit = false;
-		std::map<int, Action> m_InputActions;
+		std::map<int, InputAction> m_InputActions;
 		static bool m_ConnectedGamepads[XUSER_MAX_COUNT];
 	};
 }

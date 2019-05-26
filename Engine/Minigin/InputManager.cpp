@@ -53,6 +53,16 @@ void dae::InputManager::RefreshControllerConnections()
 	}
 }
 
+bool dae::InputManager::AddAction(InputAction action)
+{
+	auto it = m_InputActions.find(action.ActionID);
+	if (it != m_InputActions.end()) return false;
+
+	m_InputActions[action.ActionID] = action;
+
+	return true;
+};
+
 bool dae::InputManager::ProcessInput()
 {
 	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)

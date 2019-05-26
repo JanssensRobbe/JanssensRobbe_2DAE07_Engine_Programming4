@@ -163,7 +163,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actions.h" />
+    <ClInclude Include="AgentComponent.h" />
     <ClInclude Include="ButtonComponent.h" />
+    <ClInclude Include="Conditions.h" />
+    <ClInclude Include="DigDugCharacterComponent.h" />
+    <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="OnePlayerScene.h" />
     <ClInclude Include="pch.h" />
@@ -171,9 +177,14 @@
     <ClInclude Include="StoneComponent.h" />
     <ClInclude Include="TwoPlayerScene.h" />
     <ClInclude Include="VersusScene.h" />
+    <ClInclude Include="WinnerScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AgentComponent.cpp" />
     <ClCompile Include="ButtonComponent.cpp" />
+    <ClCompile Include="DigDugCharacterComponent.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="OnePlayerScene.cpp" />
@@ -187,6 +198,7 @@
     <ClCompile Include="StoneComponent.cpp" />
     <ClCompile Include="TwoPlayerScene.cpp" />
     <ClCompile Include="VersusScene.cpp" />
+    <ClCompile Include="WinnerScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Minigin\Minigin.vcxproj">

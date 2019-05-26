@@ -1,0 +1,21 @@
+﻿  AStarPathFinding.cpp
+  CharacterComponent.cpp
+  InputManager.cpp
+  Level.cpp
+  Log.cpp
+  Minigin.cpp
+  Scene.cpp
+  SceneManager.cpp
+  Minigin.vcxproj -> C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\x64\Release\Minigin.lib
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2\lib\x64\SDL2.dll
+  1 File(s) copied
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_image\lib\x64\libjpeg-9.dll
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_image\lib\x64\libpng16-16.dll
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_image\lib\x64\libtiff-5.dll
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_image\lib\x64\libwebp-7.dll
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_image\lib\x64\SDL2_image.dll
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_image\lib\x64\zlib1.dll
+  6 File(s) copied
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_ttf\lib\x64\libfreetype-6.dll
+  C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\3rdParty\SDL2_ttf\lib\x64\SDL2_ttf.dll
+  2 File(s) copied

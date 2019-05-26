@@ -3,33 +3,21 @@
 
 namespace dae
 {
-	class StateMachine
+	class State;
+	class GameObject;
+	class StateMachine final
 	{
-		enum class EnemyType {
-			Fygar,
-			Pooka
-		};
-
-		enum class State {
-			Wander,
-			Seek,
-			Damaged,
-			Death,
-			Fire,
-			Ghost
-		};
-
 	public:
-		StateMachine(EnemyType enemyType);
-		~StateMachine() = default;
+		StateMachine(std::vector<State*> states, State* StartState, int index);
+		StateMachine() = default;
+		~StateMachine();
 
-		void RangeCheck(Point2f pos);
-		void Update(float elapsedTime);
+		void Update(float deltaTime);
 
 	private:
-		EnemyType m_EnemyType;
-		State m_State;
-		float m_DetectionRange;
+		std::vector<State*> m_pStates;
+		State* m_pState;
+		int m_AgentIndex;
 	};
 }
 

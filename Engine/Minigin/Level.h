@@ -9,7 +9,7 @@ namespace dae
 	class LevelComponent: public BaseComponent
 	{
 	public:
-		LevelComponent();
+		LevelComponent(std::string levelPath, int playerAmount = 1);
 		virtual ~LevelComponent()
 		{
 			for (auto tile : m_pTiles)
@@ -28,8 +28,10 @@ namespace dae
 	private:
 
 		std::vector<StoneComponent*> m_pStones;
+		Point2f calPos;
 		std::vector<Tile*> m_pTiles;
-		Point2f m_PlayerPosition;
+		std::vector<Point2f> m_PlayerPositions;
+		std::string m_filePath;
 	};
 }
 

@@ -3,7 +3,7 @@
 #include "SpriteComponent.h"
 #include "Structs.h"
 #include "ButtonManager.h"
-#include "CharacterComponent.h"
+#include "../DigDug/DigDugCharacterComponent.h"
 
 namespace dae
 {
@@ -25,8 +25,8 @@ namespace dae
 	public:
 		LeftCommand() {}
 		virtual void execute(GameObject& obj) override {
-			if (obj.HasComponent<CharacterComponent>())
-				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::left);
+			if (obj.HasComponent<DigDugCharacterComponent>())
+				obj.GetComponent<DigDugCharacterComponent>()->SetDirection(dae::Direction::left);
 		}
 	};
 
@@ -35,8 +35,8 @@ namespace dae
 	public:
 		RightCommand() {}
 		virtual void execute(GameObject& obj) override {
-			if (obj.HasComponent<CharacterComponent>())
-				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::right);
+			if (obj.HasComponent<DigDugCharacterComponent>())
+				obj.GetComponent<DigDugCharacterComponent>()->SetDirection(dae::Direction::right);
 		}
 	};
 
@@ -45,11 +45,10 @@ namespace dae
 	public:
 		DownCommand(){}
 		virtual void execute(GameObject& obj) override {
-			if (obj.HasComponent<CharacterComponent>())
-				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::down);
+			if (obj.HasComponent<DigDugCharacterComponent>())
+				obj.GetComponent<DigDugCharacterComponent>()->SetDirection(dae::Direction::down);
 			else if (obj.HasComponent<ButtonComponent>())
 				ButtonManager::GetInstance().SetNextButtonActive();
-			std::cout << "DownCommand" << std::endl;
 		}
 	};
 
@@ -58,11 +57,10 @@ namespace dae
 	public:
 		UpCommand() {}
 		virtual void execute(GameObject& obj) override {
-			if (obj.HasComponent<CharacterComponent>())
-				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::up);
+			if (obj.HasComponent<DigDugCharacterComponent>())
+				obj.GetComponent<DigDugCharacterComponent>()->SetDirection(dae::Direction::up);
 			else if (obj.HasComponent<ButtonComponent>())
 				ButtonManager::GetInstance().SetPreviousButtonActive();
-			std::cout << "UpCommand" << std::endl;
 		}
 	};
 
@@ -72,8 +70,11 @@ namespace dae
 		PumpCommand() {}
 
 		virtual void execute(GameObject& obj) override{
-			if (obj.HasComponent<CharacterComponent>())
-				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::none);
+			if (obj.HasComponent<DigDugCharacterComponent>())
+			{
+				obj.GetComponent<DigDugCharacterComponent>()->SetDirection(dae::Direction::none);
+				obj.GetComponent<DigDugCharacterComponent>()->SetIsPumping(true);
+			}
 		}
 	};
 
@@ -82,8 +83,12 @@ namespace dae
 	public:
 		IdleCommand() {}
 		virtual  void execute(GameObject& obj) override {
-			if (obj.HasComponent<CharacterComponent>())
-				obj.GetComponent<CharacterComponent>()->SetDirection(dae::Direction::none);
+			if (obj.HasComponent<DigDugCharacterComponent>())
+			{
+				obj.GetComponent<DigDugCharacterComponent>()->SetDirection(dae::Direction::none);
+				obj.GetComponent<DigDugCharacterComponent>()->SetIsPumping(false);
+			}
+
 		}
 	};
 
@@ -94,7 +99,6 @@ namespace dae
 		virtual void execute(GameObject& obj) override {
 			if (obj.HasComponent<ButtonComponent>())
 				ButtonManager::GetInstance().GetActiveButton().SetSceneLoaded(true);
-			std::cout << "ButtonPressedCommand" << std::endl;
 		}
 	};
 }

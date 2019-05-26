@@ -7,6 +7,8 @@ namespace dae
 		TwoPlayerScene,
 		VersusScene,
 		StartMenu,
+		GameOverMenu,
+		WinnerMenu,
 		None
 	};
 	class Scene;
@@ -32,10 +34,13 @@ namespace dae
 		{
 			return m_Characters[index];
 		}
+		void SetBoundries(Rectf boundries) {m_Boundries = boundries;}
+		Rectf GetBoundries() { return m_Boundries; }
 	private:
 		std::vector<std::pair<SceneType, std::shared_ptr<dae::Scene>>> m_Scenes;
 		std::shared_ptr<Scene> m_ActiveScene;
 		std::vector<CharacterComponent*> m_Characters;
+		Rectf m_Boundries{ 0.0f,48.0f, 672.0f, 720.0f };
 	};
 
 }

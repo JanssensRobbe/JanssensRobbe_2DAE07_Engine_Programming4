@@ -1,12 +1,2 @@
-﻿  pch.cpp
-  ButtonComponent.cpp
-  Main.cpp
-  Minigin.cpp
-  OnePlayerScene.cpp
-  StartMenuScene.cpp
-  StoneComponent.cpp
-  TwoPlayerScene.cpp
-  VersusScene.cpp
-  Generating Code...
-     Creating library C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\x64\Debug\DigDug.lib and object C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\x64\Debug\DigDug.exp
+﻿  DigDugCharacterComponent.cpp
   DigDug.vcxproj -> C:\Users\Robbe\Documents\school\Semester4\Prog4\Repo\JanssensRobbe_2DAE07_Engine_Programming4\Engine\x64\Debug\DigDug.exe
