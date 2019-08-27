@@ -8,6 +8,8 @@
 |=========+===============================+
 |== WASD for moving first character	==|
 |== IJKL for moving second character	==|
+|== Press x for pushing a rock (char1)	==|
+|== Press n for pushing a rock (char2)	==|
 |== k to press button in menu		==|
 |== press WS to go up and down in menu	==|
 +=========================================+
@@ -76,23 +78,25 @@ with every collisionBox with the tag.
 ===============
 LevelComponent:
 ===============
-Here the level is created and the stones are added.
+Here the level is created and the walls and other special blocks are added.
 
-===============
-StoneComponent:
-===============
-The component with the stone logic.
+=====================
+MovableWallComponent:
+=====================
+This is the logic behind the walls.
+In here the stone knows if it is an enemy tile, a bonus block or if the bonus is active when you combine the bonus blocks.
 
-=======
+
+======
 Score:
-=======
-This is only displayed in the output.
-using std::cout and 
+======
+The score is implemented with the observer class.
+And is displayed on screen.
 
-===============
-ServiceLocator:
-===============
-Here you can register tiles, agents and players.
+========
+Locator:
+========
+Here you can register tiles, walls, agents and players.
 So the other components can just ask for there information.
 
 ========
