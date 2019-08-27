@@ -315,13 +315,13 @@ void dae::AgentComponent::RockCollision()
 			m_IsHitByFallingRock = true;
 			m_IsDead = true;
 			if (ServiceLocator::GetTile(m_TileIndex)->Position.y > 624)
-				m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreRock4);
+				Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreRock4);
 			else if(ServiceLocator::GetTile(m_TileIndex)->Position.y > 432)
-				m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreRock3);
+				Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreRock3);
 			else if(ServiceLocator::GetTile(m_TileIndex)->Position.y > 240)
-				m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreRock2);
+				Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreRock2);
 			else
-			m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreRock1);
+				Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreRock1);
 		}
 	}
 }
@@ -347,13 +347,13 @@ void dae::AgentComponent::Inflate()
 	if (m_InflateStatus == m_MaxInflate)
 	{
 		if (ServiceLocator::GetTile(m_TileIndex)->Position.y > 624)
-			m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreNormal4);
+			Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreNormal4);
 		else if (ServiceLocator::GetTile(m_TileIndex)->Position.y > 432)
-			m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreNormal3);
+			Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreNormal3);
 		else if (ServiceLocator::GetTile(m_TileIndex)->Position.y > 240)
-			m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreNormal2);
+			Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreNormal2);
 		else
-			m_pScore->onNotify(GetClosestPlayerIndex(), Observer::Event::ScoreNormal1);
+			Score::GetInstance().AddScore(GetClosestPlayerIndex(), Score::Multiplier::ScoreNormal1);
 		m_IsDead = true;
 	}
 

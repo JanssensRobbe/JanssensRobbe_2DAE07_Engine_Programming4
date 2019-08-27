@@ -34,7 +34,7 @@ dae::LevelComponent::LevelComponent(std::string levelPath, int playerAmount)
 	}
 	BinReader Reader{ m_filePath };
 
-	for (int i{}; i < m_pTiles.size(); i++)
+	for (unsigned int i{}; i < m_pTiles.size(); i++)
 	{
 		ServiceLocator::RegisterTile(i, m_pTiles[i]);
 		if (Reader.Read<bool>() && m_pTiles[i]->tileName != dae::TileName::Sky)
@@ -59,11 +59,11 @@ dae::LevelComponent::LevelComponent(std::string levelPath, int playerAmount)
 
 void dae::LevelComponent::Update(float deltaTime)
 {
-	for (int i{}; i < m_PlayerPositions.size(); ++i)
+	for (unsigned int i{}; i < m_PlayerPositions.size(); ++i)
 	{
 		m_PlayerPositions[i] = SceneManager::GetInstance().GetCharacter(i)->GetPosition();
 	}
-	for (int j{}; j < m_PlayerPositions.size(); ++j)
+	for (unsigned int j{}; j < m_PlayerPositions.size(); ++j)
 	{
 		//Point2f calPos{ m_PlayerPositions[j].x,m_PlayerPositions[j].y };
 		calPos.x = m_PlayerPositions[j].x; 
@@ -147,7 +147,7 @@ void dae::LevelComponent::Update(float deltaTime)
 			}
 		}
 	}
-	for (int i{}; i < m_pStones.size(); ++i)
+	for (unsigned int i{}; i < m_pStones.size(); ++i)
 	{
 		if (m_pStones[i]->GetIsDead())
 		{

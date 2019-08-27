@@ -10,7 +10,7 @@ dae::CollisionComponent::CollisionComponent()
 
 bool dae::CollisionComponent::CheckCollision(Tag collisionTag, Rectf object) const
 {
-	for (int i{}; i < m_Colliders.size(); ++i)
+	for (unsigned int i{}; i < m_Colliders.size(); ++i)
 	{
 		if (m_Colliders[i].first.tag == collisionTag.tag && m_IsActive[i])
 		{

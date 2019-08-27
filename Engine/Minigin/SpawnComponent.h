@@ -19,11 +19,13 @@ namespace dae
 		virtual void Update(float) override {};
 		virtual void Render() override {};
 
-		std::shared_ptr<GameObject>& SpawnPlayer(std::shared_ptr<GameObject> obj,std::string SpritePath, int nbCols, int nbRows, float frameSec, float frameSize, int startRow, float scale,
+		void SpawnPlayer(std::shared_ptr<GameObject>& obj,std::string SpritePath, int nbCols, int nbRows, float frameSec, float frameSize, int startRow, float scale,
 			std::string HealthTexturePath, int playerindex, Point2f healthPosition, int health,
 			Point2f position, SceneType endscreenType);
-		std::shared_ptr<GameObject>& SpawnPooka(std::shared_ptr<GameObject> obj);
-		std::shared_ptr<GameObject>& SpawnFygar(std::shared_ptr<GameObject> obj);
+		void SpawnPooka(std::shared_ptr<GameObject>& obj, std::string EnemiesPath, int nrRows, int nrCols, float frameSec, float frameSize, float scale,
+			int MaxNrInflate, int gridSize, int NbColsMap, int agentIndex, Point2f pos);
+		void SpawnFygar(std::shared_ptr<GameObject>& obj, std::string EnemiesPath, int nrRows, int nrCols, float frameSec, float frameSize, float scale,
+			int MaxNrInflate, int gridSize, int NbColsMap, int agentIndex, Point2f pos);
 	};
 }
 

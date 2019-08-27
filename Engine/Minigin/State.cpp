@@ -18,7 +18,7 @@ dae::State::State(std::vector< std::shared_ptr<Action>> actions, std::vector< st
 
 void dae::State::SetActions(std::vector< std::shared_ptr<Action>> actions, ActionName actionName)
 {
-	for (int i{}; i < actions.size(); i++)
+	for (unsigned int i{}; i < actions.size(); i++)
 	{
 		switch (actionName)
 		{
@@ -59,7 +59,7 @@ void dae::State::SetAction(std::shared_ptr<Action> action, ActionName actionName
 
 void dae::State::SetTransitions(std::vector<std::shared_ptr<Transition>> transitions)
 {
-	for (int i{}; i < transitions.size(); i++)
+	for (unsigned int i{}; i < transitions.size(); i++)
 	{
 		if (std::find(m_pTransitions.begin(), m_pTransitions.end(), transitions[i]) == m_pTransitions.end())
 			m_pTransitions.push_back(transitions[i]);

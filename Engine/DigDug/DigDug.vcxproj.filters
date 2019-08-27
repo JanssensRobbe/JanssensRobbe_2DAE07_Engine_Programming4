@@ -56,12 +56,6 @@
     <ClInclude Include="HealthComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="GameOverScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="WinnerScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -99,12 +93,6 @@
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOverScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="WinnerScene.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

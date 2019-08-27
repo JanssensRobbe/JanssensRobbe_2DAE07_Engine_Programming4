@@ -13,7 +13,7 @@ dae::SpawnComponent::SpawnComponent()
 
 
 
-std::shared_ptr<dae::GameObject>& dae::SpawnComponent::SpawnPlayer(std::shared_ptr<GameObject> obj,std::string SpritePath, int nbCols,int nbRows,float frameSec,float frameSize,int startRow, float scale,
+void dae::SpawnComponent::SpawnPlayer(std::shared_ptr<GameObject>& obj,std::string SpritePath, int nbCols,int nbRows,float frameSec,float frameSize,int startRow, float scale,
 	std::string HealthTexturePath, int playerindex, Point2f healthPosition, int health,
 	Point2f position, SceneType endscreenType)
 {
@@ -27,17 +27,31 @@ std::shared_ptr<dae::GameObject>& dae::SpawnComponent::SpawnPlayer(std::shared_p
 	obj->AddComponent(Character);
 	ServiceLocator::RegisterPlayer(playerindex, obj);
 	SceneManager::GetInstance().AddCharacter(*Character);
-	return obj;
+
 }
 
-std::shared_ptr<dae::GameObject>& dae::SpawnComponent::SpawnPooka(std::shared_ptr<GameObject> obj)
+void dae::SpawnComponent::SpawnPooka(std::shared_ptr<GameObject>& obj,std::string EnemiesPath,int nrRows,int nrCols, float frameSec, float frameSize, float scale, 
+	int MaxNrInflate,int gridSize,int NbColsMap, int agentIndex,Point2f pos)
 {
-	// TODO: insert return statement here
-	return obj;
+	obj = std::make_shared<GameObject>();
+	 SpriteComponent* SpriteComp = new SpriteComponent{ EnemiesPath,nrRows,nrCols,frameSec,frameSize,0,scale };
+	 obj->AddComponent(SpriteComp);
+	 AgentComponent* agent = new AgentComponent(MaxNrInflate, gridSize, NbColsMap, dae::EnemyType::Fygar);
+	 agent->Initialize();
+	 ServiceLocator::RegisterAgent(agentIndex, obj);
+	 obj->AddComponent(agent);
+	 obj->SetPosition(pos.x, pos.y);
 }
 
-std::shared_ptr<dae::GameObject>& dae::SpawnComponent::SpawnFygar(std::shared_ptr<GameObject> obj)
+void dae::SpawnComponent::SpawnFygar(std::shared_ptr<GameObject>& obj, std::string EnemiesPath, int nrRows, int nrCols, float frameSec, float frameSize, float scale,
+	int MaxNrInflate, int gridSize, int NbColsMap, int agentIndex, Point2f pos)
 {
-	// TODO: insert return statement here
-	return obj;
+	obj = std::make_shared<GameObject>();
+	SpriteComponent* SpriteComp = new SpriteComponent{ EnemiesPath,nrRows,nrCols,frameSec,frameSize,8,scale };
+	obj->AddComponent(SpriteComp);
+	AgentComponent* agent = new AgentComponent(MaxNrInflate, gridSize, NbColsMap, dae::EnemyType::Pooka);
+	agent->Initialize();
+	ServiceLocator::RegisterAgent(agentIndex, obj);
+	obj->AddComponent(agent);
+	obj->SetPosition(pos.x, pos.y);
 }

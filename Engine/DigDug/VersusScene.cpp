@@ -41,7 +41,8 @@ void dae::VersusScene::LoadScene()
 
 	auto spawn = std::make_shared<SpawnComponent>();
 	to = std::make_shared<GameObject>();
-	Add(spawn->SpawnPlayer(to,"DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 0, Point2f{0.0f,820.0f},3, Point2f{ 336,432 }, dae::SceneType::GameOverMenu));
+	spawn->SpawnPlayer(to, "DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 0, Point2f{ 0.0f,820.0f }, 3, Point2f{ 336,432 }, dae::SceneType::GameOverMenu);
+	Add(to);
 
 	to = std::make_shared<GameObject>();
 	TextComponent* TextComp2 = new TextComponent{ "",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36),{255,255,255}, true };

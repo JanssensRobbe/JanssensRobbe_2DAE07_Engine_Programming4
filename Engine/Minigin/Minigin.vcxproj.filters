@@ -74,9 +74,6 @@
     <ClInclude Include="Texture2D.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

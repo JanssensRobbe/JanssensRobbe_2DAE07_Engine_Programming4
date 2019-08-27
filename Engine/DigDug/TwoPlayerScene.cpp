@@ -60,12 +60,14 @@ void dae::TwoPlayerScene::LoadScene()
 
 	auto spawn = std::make_shared<SpawnComponent>();
 	to = std::make_shared<GameObject>();
-	Add(spawn->SpawnPlayer(to, "DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 0, Point2f{ 0.0f,820.0f }, 3, Point2f{ 336,432 }, dae::SceneType::WinnerMenu));
+	spawn->SpawnPlayer(to, "DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 0, Point2f{ 0.0f,820.0f }, 3, Point2f{ 336,432 }, dae::SceneType::StartMenu);
+	Add(to);
 
 
 	spawn = std::make_shared<SpawnComponent>();
 	to = std::make_shared<GameObject>();
-	Add(spawn->SpawnPlayer(to, "DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 1, Point2f{ 500.0f, 820.0f }, 3, Point2f{ 436,432 }, dae::SceneType::WinnerMenu));
+	spawn->SpawnPlayer(to, "DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 1, Point2f{ 500.0f, 820.0f }, 3, Point2f{ 436,432 }, dae::SceneType::StartMenu);
+	Add(to);
 
 	to = std::make_shared<GameObject>();
 	TextComponent* TextComp2 = new TextComponent{ "",ResourceManager::GetInstance().LoadFont("Lingua.otf", 36),{255,255,255}, true };
@@ -74,12 +76,42 @@ void dae::TwoPlayerScene::LoadScene()
 	Add(to);
 
 	to = std::make_shared<GameObject>();
-	SpriteComponent* SpriteComp12 = new SpriteComponent{ "Enemies.png",2,1,0.2f,16.0f,0,3.0f };
-	to->AddComponent(SpriteComp12);
-	AgentComponent* agent = new AgentComponent(4, 48, 14,EnemyType::Pooka);
+	SpriteComponent* SpriteComp6 = new SpriteComponent{ "Enemies.png",2,1,0.2f,16.0f,0,3.0f };
+	to->AddComponent(SpriteComp6);
+	AgentComponent* agent = new AgentComponent(4, 48, 14, dae::EnemyType::Pooka);
 	agent->Initialize();
 	ServiceLocator::RegisterAgent(0, to);
 	to->AddComponent(agent);
-	to->SetPosition(240, 432);
+	to->SetPosition(192, 192);
+	Add(to);
+
+	to = std::make_shared<GameObject>();
+	SpriteComponent* SpriteComp7 = new SpriteComponent{ "Enemies.png",2,1,0.2f,16.0f,8,3.0f };
+	to->AddComponent(SpriteComp7);
+	AgentComponent* agent2 = new AgentComponent(4, 48, 14, dae::EnemyType::Fygar);
+	agent2->Initialize();
+	ServiceLocator::RegisterAgent(1, to);
+	to->AddComponent(agent2);
+	to->SetPosition(480, 192);
+	Add(to);
+
+	to = std::make_shared<GameObject>();
+	SpriteComponent* SpriteComp8 = new SpriteComponent{ "Enemies.png",2,1,0.2f,16.0f,0,3.0f };
+	to->AddComponent(SpriteComp8);
+	AgentComponent* agent3 = new AgentComponent(4, 48, 14, dae::EnemyType::Pooka);
+	agent3->Initialize();
+	ServiceLocator::RegisterAgent(2, to);
+	to->AddComponent(agent3);
+	to->SetPosition(480, 720);
+	Add(to);
+
+	to = std::make_shared<GameObject>();
+	SpriteComponent* SpriteComp9 = new SpriteComponent{ "Enemies.png",2,1,0.2f,16.0f,0,3.0f };
+	to->AddComponent(SpriteComp9);
+	AgentComponent* agent4 = new AgentComponent(4, 48, 14, dae::EnemyType::Pooka);
+	agent4->Initialize();
+	ServiceLocator::RegisterAgent(3, to);
+	to->AddComponent(agent4);
+	to->SetPosition(192, 720);
 	Add(to);
 }

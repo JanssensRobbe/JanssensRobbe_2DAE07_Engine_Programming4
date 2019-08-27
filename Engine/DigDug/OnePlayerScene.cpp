@@ -10,6 +10,7 @@
 #include "HealthComponent.h"
 #include "CollisionComponent.h"
 #include "SpawnComponent.h"
+#include "Score.h"
 
 
 dae::OnePlayerScene::OnePlayerScene(const std::string& name)
@@ -36,6 +37,7 @@ void dae::OnePlayerScene::LoadScene()
 	auto rightCommand = InputAction( 4, std::make_shared<RightCommand>(), 'D', -1, WORD(dae::ControllerButton::RightArrow), dae::PlayerOne);
 	InputManager::GetInstance().AddAction(rightCommand);
 
+	Score::GetInstance().Init();
 	auto to = std::make_shared<GameObject>();
 	LevelComponent* LevelComp = new LevelComponent("./../Data/Level1.bin",1);
 	to->AddComponent(LevelComp);
@@ -50,7 +52,8 @@ void dae::OnePlayerScene::LoadScene()
 
 	auto spawn = std::make_shared<SpawnComponent>();
 	to = std::make_shared<GameObject>();
-	Add(spawn->SpawnPlayer(to, "DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 0, Point2f{ 0.0f,820.0f }, 3, Point2f{ 336,432 }, dae::SceneType::GameOverMenu));
+	spawn->SpawnPlayer(to, "DigDug.png", 2, 1, 0.2f, 16.0f, 8, 3.0f, "Lives.png", 0, Point2f{ 0.0f,820.0f }, 3, Point2f{ 336,432 }, dae::SceneType::StartMenu);
+	Add(to);
 	to = std::make_shared<GameObject>();
 
 	to = std::make_shared<GameObject>();
@@ -66,7 +69,7 @@ void dae::OnePlayerScene::LoadScene()
 	agent->Initialize();
 	ServiceLocator::RegisterAgent(0,to);
 	to->AddComponent(agent);
-	to->SetPosition(240,432);
+	to->SetPosition(192,192);
 	Add(to);
 
 	to = std::make_shared<GameObject>();
@@ -76,7 +79,27 @@ void dae::OnePlayerScene::LoadScene()
 	agent2->Initialize();
 	ServiceLocator::RegisterAgent(1, to);
 	to->AddComponent(agent2);
-	to->SetPosition(160, 432);
+	to->SetPosition(480, 192);
+	Add(to);
+
+	to = std::make_shared<GameObject>();
+	SpriteComponent* SpriteComp8 = new SpriteComponent{ "Enemies.png",2,1,0.2f,16.0f,0,3.0f };
+	to->AddComponent(SpriteComp8);
+	AgentComponent* agent3 = new AgentComponent(4, 48, 14, dae::EnemyType::Pooka);
+	agent3->Initialize();
+	ServiceLocator::RegisterAgent(2, to);
+	to->AddComponent(agent3);
+	to->SetPosition(480, 720);
+	Add(to);
+
+	to = std::make_shared<GameObject>();
+	SpriteComponent* SpriteComp9 = new SpriteComponent{ "Enemies.png",2,1,0.2f,16.0f,0,3.0f };
+	to->AddComponent(SpriteComp9);
+	AgentComponent* agent4 = new AgentComponent(4, 48, 14, dae::EnemyType::Pooka);
+	agent4->Initialize();
+	ServiceLocator::RegisterAgent(3, to);
+	to->AddComponent(agent4);
+	to->SetPosition(192, 720);
 	Add(to);
 }
 

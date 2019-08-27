@@ -10,8 +10,7 @@
 #include "Command.h"
 #include "ServiceLocator.h"
 #include "HealthComponent.h"
-#include "GameOverScene.h"
-#include "WinnerScene.h"
+#include "StartMenuScene.h"
 
 dae::DigDugCharacterComponent::DigDugCharacterComponent(DWORD playerNumber, SpriteComponent& spriteComponent, Point2f respawnPoint, dae::SceneType endscreenType)
 	:CharacterComponent{playerNumber,spriteComponent}
@@ -53,16 +52,9 @@ void dae::DigDugCharacterComponent::Update(float elapsedTime)
 	else if (m_IsDead && m_IsGameOver)
 	{
 		
-		if (m_SceneType == SceneType::GameOverMenu)
+		if (m_SceneType == SceneType::StartMenu)
 		{
-			auto scene = std::make_shared<GameOverScene>("GameOverScene");
-			SceneManager::GetInstance().CreateScene(m_SceneType, scene);
-			scene->LoadScene();
-			SceneManager::GetInstance().SetActiveScene(m_SceneType);
-		}
-		else if (m_SceneType == SceneType::WinnerMenu)
-		{
-			auto scene = std::make_shared<WinnerScene>("WinnerScrene");
+			auto scene = std::make_shared<StartMenuScene>("GameOverScene");
 			SceneManager::GetInstance().CreateScene(m_SceneType, scene);
 			scene->LoadScene();
 			SceneManager::GetInstance().SetActiveScene(m_SceneType);

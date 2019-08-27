@@ -6,15 +6,25 @@
 
 namespace dae
 {
-	class Score :public Observer
+	class Score :public Singleton<Score>
 	{
 	public:
+		enum class Multiplier
+		{
+			ScoreNormal1,
+			ScoreNormal2,
+			ScoreNormal3,
+			ScoreNormal4,
+			ScoreRock1,
+			ScoreRock2,
+			ScoreRock3,
+			ScoreRock4
+		};
 		Score() = default;
 		virtual ~Score()
 		{
 			delete m_Text;
 		}
-
 		void Init()
 		{
 			m_Score.insert({ 0,0 });
@@ -22,7 +32,8 @@ namespace dae
 			m_Score.insert({ 2,0 });
 			m_Score.insert({ 3,0 });
 		}
-		virtual void onNotify(const int playerIndex, Event event) override;
+
+		void AddScore(const int playerIndex, Multiplier multiplier);
 
 	private:
 		void PrintOutScore(int playerIndex);
